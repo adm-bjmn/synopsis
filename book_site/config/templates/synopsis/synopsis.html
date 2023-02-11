@@ -13,19 +13,15 @@
 
 {% if user.is_authenticated %}
 <section class = 'home-section'>
-  <div class = 'site-intro-wrapper'>
-    <h3>Welcome {{ first_name }}. 
-      Lets find you something to read...</h3>
-  </div>
   <div> 
-    Start By choosing a genre...
+    Swipe
   </div>
     <!-- Genres
   show all genres as buttons for the user to select-->
-  <div class = 'genre-select'>
-    {% for genre in genre_list %}
-    <div class = 'genre-button-wrapper'>
-    <h4><a href = "#" class = 'genre_button'>{{genre}}</a></h4>
+  <div>
+    {% for books in book_list %}
+    <div>
+    <a href = "#" class = 'synopsis'>{{book,synopsis}}</a>
     </div>
     {% endfor %}
   </div>

@@ -38,7 +38,7 @@ h1,h2,h3,h4,h5,h6, strong{
 }
 
 p,li,span,label,input,textarea{
-    color: grey;
+    color: var(--sub_text_color);
     font-family: var(--main_font);
     font-size: 18px;
 }
@@ -163,3 +163,21 @@ li{
     font: var(--main_font);
 }
 
+
+/* ==============
+     Dashboard
+   ============== */
+.genre-select{
+    padding-bottom: 100px;
+}
+.genre-button-wrapper{
+    padding-left: 50px;
+    padding-top: 20px;
+}
+.genre_button{
+color: var(--sub_text_color);
+}
+
+.synopsis{
+color: white;
+}

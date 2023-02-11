@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {% if user.is_authenticated %}
+    Login Successful 
+  {%else%}
+    Please Login
+  {% endif %}
+{% endblock title %}
+
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<section class = 'home-section'>
+
+    <!-- Display the book information in full using the Priamry Key to identify. -->
+  <div>
+<!-- Book info ( could be displayed as a list - alter css for class li to change the lay out)
+
+{{book.title}}
+{{book.author}}
+
+etc-->
+  </div>
+</section>
+
+{% else %}
+  <h3> Please Login to view this page...</h3>
+{% endif %}
+  
+{% endblock content%}
