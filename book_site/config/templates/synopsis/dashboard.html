@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {% if user.is_authenticated %}
+    Login Successful 
+  {%else%}
+    Please Login
+  {% endif %}
+{% endblock title %}
+
+
+{% block content %}
+
+  {% if user.is_authenticated %}
+    <section class = 'home-section'>
+      <div class = 'site-intro-wrapper'>
+      <h3>Welcome {{ first_name }}. 
+        Lets find you something to read...</h3>
+      </div>
+      <div> Start By choosing a genre...</div>
+      <!-- Genres
+    show all genres as buttons for the user to select-->
+    <div style = 'height: 3000px;'></div>
+    </section>
+
+  {% else %}
+    <h3> Please Login to view this page...</h3>
+  {% endif %}
+  
+{% endblock content%}

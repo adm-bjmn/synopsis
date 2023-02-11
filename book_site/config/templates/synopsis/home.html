@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock title %}
+
+{% block content %}
+<section class = 'home-section'>
+
+  <div class = 'site-intro-wrapper'>
+  <h3>Welcome to Blurb. 
+    A new way to find your next great read.</h3>
+  </div>
+  {% if user.is_authenticated %}
+  {% else %}
+  <div>
+    <a href= "{% url 'register_user' %}"><button type="button" class="btn btn-outline-secondary">Register</button></a>
+  </div>
+  {% endif %}
+
+  <div>
+    <!-- Blurb allows you to shop the latest book releases by synopsis rather than front cover. 
+      Updated every month with 1000s of both recent and upcoming release, 
+      blurb lets you create a profile and save books for later, 
+      if you like the sound of a book you can click to see the author and title aswell 
+      as realease dates and links to some of the Uks most reputible book retailers. -->
+  </div>
+</section>
+{% endblock content%}

@@ -1,0 +1,99 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <link href = "{% static 'css/main.css'%}" rel = "stylesheet" text = "text/css">
+    <title>{% block title %}{% endblock title %}</title>
+    <meta name="author" content="Adm.Bjmn">
+  </head>
+  <body>
+
+
+<!--
+  ////   BASE FRAME /////
+
+===== ALWAYS ON TOP ===== -->
+<section class = 'base-section'>
+  <div class = 'main-container'>
+    <div class = 'header'>
+      <!-- If use user is auth change to logout -->
+      <div>
+        {% if user.is_authenticated %}
+        <a href = "{% url 'logout_user' %}"><button type="button" class="btn btn-outline-secondary">Logout</button></a>
+        {% else %}
+        <a href = "{% url 'login_user' %}"><button type="button" class="btn btn-outline-secondary">Login</button></a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- === NAV BAR === -->
+    {% if user.is_authenticated %}
+    <div class ='nav-wrapper'>
+      <nav class="navbar navbar-expand-lg bg-body-transparent">
+        <div class="container-fluid">
+
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' %}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Synopsis</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">My Books</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Profile</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Change Genre
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+    {% else %}
+    {% endif %}
+
+  <div class = 'messages'>
+    {% if messages %}
+      {% for message in messages %} 
+        <h6>{{ message }}</h6> 
+      {% endfor %}
+    {% endif %}
+  </div>
+
+    <!-- ==== BLOCK CONTENT ==== -->
+    <div style = 'padding-top: 5%;'></div>
+    <div class = 'main-container'>
+      {% block content %}{% endblock content %}
+    </div>
+  </div>
+
+  <!-- ==== COPYWRITE ==== -->
+  <div class = 'fixed-bottom'>
+    <a style = 'padding-left: 2%;' href = "#">DEMO</a>
+    <div class = 'copywrite'> copywrite © 2023 Adm.Bjmn - Adam Benjamin Bastow. all rights reserved</div>
+  </div>
+</section>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  </body>
+</html>
+

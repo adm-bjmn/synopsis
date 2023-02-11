@@ -1,0 +1,56 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<link rel="preconnect" href="https://fonts.googleapis.com"> 
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+<link href = "{% static 'css/main.css'%}" rel = "stylesheet" text = "text/css">
+<title>{% block title %}{% endblock title %}</title>
+<meta name="author" content="Adm.Bjmn">
+</head>
+<body>
+
+
+<section class = 'base-section'>
+    <div class = 'main-container'>
+        <div class = 'header'>
+            <div>
+              <a href = "{% url 'home' %}"><button type="button" class="btn btn-outline-secondary">Back</button></a>
+            </div>
+          </div>
+        <div><h3>Register</h3></div>
+
+{% if form.errors %}
+    <p>There was an Error With your regirstration, see deatils below.</p>
+{% endif %}
+
+ <!-- ///// REGISTRATION FORM ///// -->
+  <div class = 'auth-container'>
+    <div class = 'register-form'>
+      <form action= "{% url 'register_user' %}" method="POST" class = 'auth-form'>
+          {% csrf_token %}
+
+          {{ form.as_p }}
+        <div style = 'padding-top: 20px;'>
+          <input type="submit" class="btn btn-outline-secondary" style="width:100%"></input>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+<!-- ==== COPYWRITE ==== -->
+<div class = 'base-footer'>
+  <a style = 'padding-left: 2%;' href = "#">DEMO</a>
+  <div class = 'copywrite'> copywrite © 2023 Adm.Bjmn - Adam Benjamin Bastow. all rights reserved</div>
+</div>
+</section>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+</body>
+</html>

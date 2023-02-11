@@ -1,0 +1,165 @@
+:root{
+    /* light mode */
+        --main_text_color: white;
+        --sub_text_color: #581f2f;
+        --main_font:'Playfair Display', serif;
+        --sub_font: 'Playfair Display', serif;
+    
+        --border_color: #333333;
+    
+        --main_color: #fffeef;
+        --alternate_color: #f6f5e5;
+        --theme_boarder: black;
+        --dark_button : #333333;
+        --dmfont: 'Creepster', cursive;
+    
+    }
+    
+/* ============
+HTML standard tags 
+   ============ */
+html, body{
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+    background-color: black;
+}
+
+h1{font-size: 377px;}
+h2{font-size: 233px;}
+h3{font-size: 144px;}
+h4{font-size: 89px;}
+h5{font-size: 55px;}
+h6{font-size: 34px;}
+h1,h2,h3,h4,h5,h6, strong{
+    font-family: var(--main_font);
+    color: var(--main_text_color);
+    font-weight: 500;
+}
+
+p,li,span,label,input,textarea{
+    color: grey;
+    font-family: var(--main_font);
+    font-size: 18px;
+}
+
+a{
+    text-decoration: none;
+    color: var(--sub_text_color);
+    font: var(--main_font);
+
+}
+
+ul{list-style: none;}
+li{
+    margin: 5px 0;
+}
+
+.main-container{
+    width: 95%;
+    margin: 0 auto;
+}
+
+
+/* ===========
+    BASE.HTML 
+   ===========  */
+.header{
+    padding-top: 1%;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.btn-outline-secondary:hover, .btn-outline-secondary:focus, .btn-outline-secondary:active, .btn-outline-secondary.active, .open>.dropdown-toggle.btn-outline-secondary {
+    color: #fff;
+    background-color: black;
+    border-color: #285e8e;
+}
+.btn{
+    color: white;
+}
+
+.copywrite{
+    margin-left: 2%;
+    color: whitesmoke;
+    font-size: x-small;
+}
+
+.messages{
+    display: flex;
+    justify-content: right;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+/* =============
+      NAVBAR
+   ============= */
+.nav-wrapper{
+    padding-bottom: 20px;
+}
+.nav-link{
+    color: white;
+}
+.nav-item :hover{
+    color: #285e8e;
+}
+
+
+.home-section{
+    width: 80%;
+    margin: 0 auto;
+}
+
+
+/* =============
+      HOME.HTML
+   ============= */
+.site-intro-wrapper{
+    padding-bottom: 50px;
+}
+
+
+/* ==============================
+      LOGIN.HTML / REGISTER.HTML
+   ============================== */
+
+.auth-container{
+    display: flex;
+    padding-top: 30px;
+
+}
+.auth-form-wrapper{
+    width: 30%;
+    padding-bottom: 10px;
+    padding-top: 20px;
+    padding-left: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.auth-form{
+    width: 95%;
+    margin: 0 auto;
+}
+
+.form-text{
+    color: #333333;
+    font: var(--main_font);
+}
+.form-label{
+    color: white;
+    font: var(--main_font);
+}
+.register-form{
+    padding-left: 10%;
+    width: 40%;
+}
+.register-form label{
+    color: white;
+    font: var(--main_font);
+}
+
