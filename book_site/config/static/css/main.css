@@ -37,7 +37,7 @@ h1,h2,h3,h4,h5,h6, strong{
     font-weight: 500;
 }
 
-p,li,span,label,input,textarea{
+p,li,span,label,textarea{
     color: var(--sub_text_color);
     font-family: var(--main_font);
     font-size: 18px;
@@ -174,10 +174,20 @@ li{
     padding-left: 50px;
     padding-top: 20px;
 }
-.genre_button{
-color: var(--sub_text_color);
+.genre-button{
+    color: white;
+    font-family: var(--main_font);
+    background-color: black;
+    border: none;
+
 }
 
 .synopsis{
-color: white;
+    color: white;
+}
+
+
+.control-label{
+    color: white;
+    font: var(--main_font);
 }

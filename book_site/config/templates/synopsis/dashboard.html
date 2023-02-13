@@ -22,10 +22,16 @@
   </div>
     <!-- Genres
   show all genres as buttons for the user to select-->
+
+ 
   <div class = 'genre-select'>
+    <form action= "" method="POST" class = 'auth-form'>
+      {% csrf_token %}
+      {{ form.as_p }}
+
     {% for genre in genre_list %}
     <div class = 'genre-button-wrapper'>
-    <h4><a href = "#" class = 'genre_button'>{{genre}}</a></h4>
+    <h4><input class='genre-button' type="submit" name="{{genre.id}}" value="{{genre}}"></input></h4>
     </div>
     {% endfor %}
   </div>
@@ -36,3 +42,4 @@
 {% endif %}
   
 {% endblock content%}
+

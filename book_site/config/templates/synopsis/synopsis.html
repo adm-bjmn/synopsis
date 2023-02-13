@@ -19,9 +19,9 @@
     <!-- Genres
   show all genres as buttons for the user to select-->
   <div>
-    {% for books in book_list %}
+    {% for books in display_books %}
     <div>
-    <a href = "#" class = 'synopsis'>{{book,synopsis}}</a>
+    <a href = "#" class = 'synopsis'>{{books.synopsis}}</a>
     </div>
     {% endfor %}
   </div>
