@@ -15,7 +15,7 @@ def login_user(request):
         if user is not None:
             login(request, user)
             messages.success(
-                request, (f'Logged in as {user}.'))
+                request, (f'Logged in as {user}'))
             return redirect('dashboard')  # redirect to genres
         else:
             messages.success(request, ('No soz...'))

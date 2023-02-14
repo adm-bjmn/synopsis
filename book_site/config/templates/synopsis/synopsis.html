@@ -21,7 +21,7 @@
   <div>
     {% for books in display_books %}
     <div>
-    <a href = "#" class = 'synopsis'>{{books.synopsis}}</a>
+    <a href = "{% url 'book_info' books.id %}" class = 'synopsis'>{{books.synopsis}}</a>
     </div>
     {% endfor %}
   </div>

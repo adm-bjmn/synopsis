@@ -14,15 +14,14 @@
 {% if user.is_authenticated %}
 <section class = 'home-section'>
 
-    <!-- Display the book information in full using the Priamry Key to identify. -->
-  <div>
-<!-- Book info ( could be displayed as a list - alter css for class li to change the lay out)
+{{book.title}}<br>
+{{book.author}}<br>
+{{book.publish_date}}<br>
+{{book.synopsis}}<br>
 
-{{book.title}}
-{{book.author}}
-
-etc-->
-  </div>
+<div>
+<a href= "{% url 'synopsis' book.genre.id %}"><button type="button" class="btn btn-outline-secondary">back</button></a>
+</div>
 </section>
 
 {% else %}

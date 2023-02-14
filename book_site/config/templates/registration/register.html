@@ -30,17 +30,27 @@
 
  <!-- ///// REGISTRATION FORM ///// -->
   <div class = 'auth-container'>
+
+    <div> New User Registration form</div>
+
     <div class = 'register-form'>
       <form action= "{% url 'register_user' %}" method="POST" class = 'auth-form'>
           {% csrf_token %}
+          {% for fields in form  %}
+          <label class="form-label">{{ fields.label }}</label>
+          <div style="padding-bottom: 5px;">{{ fields }}</div>
 
-          {{ form.as_p }}
+          {% endfor %}
         <div style = 'padding-top: 20px;'>
           <input type="submit" class="btn btn-outline-secondary" style="width:100%"></input>
         </div>
       </form>
+      <div style="text-align: center; padding-top:5px;">
+        We will never share you information with third parties. 
+      </div>
     </div>
   </div>
+
   <div style='height: 300px;'></div>
 
 

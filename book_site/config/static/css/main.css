@@ -129,6 +129,7 @@ li{
 
 .auth-container{
     display: flex;
+    flex-direction: column;
     padding-top: 30px;
 
 }
@@ -187,7 +188,3 @@ li{
 }
 
 
-.control-label{
-    color: white;
-    font: var(--main_font);
-}

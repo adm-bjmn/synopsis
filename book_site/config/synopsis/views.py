@@ -18,18 +18,15 @@ def dashboard(request):
         # the queary dictionary which has the CSRF token and the name
         # of the button pressed on the dashobard.html
         genre_id = list(request.POST)[1]
+        print(f'Genre ID = {genre_id}')
         return synopsis(request, genre_id)
     else:
         return render(request, 'synopsis/dashboard.html',
                       {'form': form, 'genre_list': genre_list})
 
-# set up each of the genre views ready to start putputting the books
-# on ith separate queray sets.
-# def sci-fi(request):
-
 
 def synopsis(request, genre_id):
-    display_books = Book.objects.all().filter(genre=genre_id)
+    display_books = Book.objects.all().filter(genre=genre_id).order_by()
     genre_name = Genre.objects.get(id=genre_id).genre
     if display_books.exists():
         return render(request, 'synopsis/synopsis.html',
@@ -40,6 +37,13 @@ def synopsis(request, genre_id):
         return redirect('dashboard')
 
 
-def book_info(request):
+def book_info(request, book_id):
+    book = Book.objects.get(pk=book_id)
     # show the books infor using the primary key from the genres page.
-    return render(request, 'book_info.html', {})
+    return render(request, 'synopsis/book_info.html', {'book': book, })
+
+
+def synopsis_redirect(request, book):
+    genre = book.genre.id
+    print(genre)
+    return synopsis(request, genre)
