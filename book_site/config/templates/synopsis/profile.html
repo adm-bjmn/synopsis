@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+{% endblock title %}
+
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<section class = 'home-section'>
+
+    {{user.username}}<br>
+    {{user.email}}<br>
+    {{user.last_name}}<br>
+
+
+<div>
+<a href= "#"><button type="button" class="btn btn-outline-secondary">Update info</button></a>
+</div>
+<a class="nav-link" href="{% url 'my_books' %}">My Books</a>
+
+{% else %}
+  <h3> Please Login to view this page...</h3>
+{% endif %}
+  
+{% endblock content%}

@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
-from .models import Genre, Book
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Genre, Book, User
 from .forms import BlankForm
 from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 # Create your views here.
 
@@ -39,11 +41,48 @@ def synopsis(request, genre_id):
 
 def book_info(request, book_id):
     book = Book.objects.get(pk=book_id)
+    liked = False
+    if book.liked_by.filter(id=request.user.id).exists():
+        liked = True
     # show the books infor using the primary key from the genres page.
-    return render(request, 'synopsis/book_info.html', {'book': book, })
+    return render(request, 'synopsis/book_info.html', {'book': book, 'liked': liked})
 
 
+'''
 def synopsis_redirect(request, book):
     genre = book.genre.id
     print(genre)
     return synopsis(request, genre)
+'''
+
+
+def like_view(request, id):
+    book = get_object_or_404(Book, id=request.POST.get('book.id'))
+    member = request.user.member
+    liked = False
+    if book.liked_by.filter(id=request.user.id).exists():
+        member.liked_books.remove(book.id)
+        book.liked_by.remove(request.user.id)
+        liked = False
+    else:
+        member.liked_books.add(book.id)
+        book.liked_by.add(request.user.id)
+        liked = True
+    return HttpResponseRedirect(reverse('book_info', args=str(id)))
+
+
+def my_books(request):
+    if request.user.is_authenticated:
+        my_books = Book.objects.filter(liked_by=request.user.id)
+        return render(request, 'synopsis/my_books.html', {'my_books': my_books})
+    else:
+        messages.success(request, (
+            "You must be logged in to view this page"))
+        return redirect('home')
+
+
+def user_profile(request):
+    user = request.user
+    print(user)
+    # show the books infor using the primary key from the genres page.
+    return render(request, 'synopsis/profile.html', {'user': user, })

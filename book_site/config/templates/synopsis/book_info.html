@@ -22,7 +22,19 @@
 <div>
 <a href= "{% url 'synopsis' book.genre.id %}"><button type="button" class="btn btn-outline-secondary">back</button></a>
 </div>
-</section>
+
+<div class = 'like-book'>
+  <form action= "{% url 'like_book' book.id  %}" method="POST" class = 'auth-form'>
+    {% csrf_token %}
+  <div class = 'genre-button-wrapper'>
+    <!-- if liked by user == True-->
+    {% if liked == True %}
+      <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove from My Books</button></h4>
+    {% else %}
+      <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"> Add To My Books</button></h4>
+    {% endif %}
+  </div>
+</div>
 
 {% else %}
   <h3> Please Login to view this page...</h3>

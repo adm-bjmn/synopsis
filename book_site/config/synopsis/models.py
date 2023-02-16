@@ -1,4 +1,5 @@
 from django.db import models
+from members.models import User
 
 # greres calsses used to catagorise book entries
 
@@ -19,18 +20,7 @@ class Book(models.Model):
     genre = models.ForeignKey(
         Genre, on_delete=models.SET_DEFAULT, default='Adventure')
     purchase_link = models.URLField('Link to Purchase',)
+    liked_by = models.ManyToManyField(User,  symmetrical=False, blank=True)
 
     def __str__(self):
         return self.title
-
-# additional members class to use with djangos User class
-
-
-class Member(models.Model):
-    first_name = models.CharField('First Name', max_length=25)
-    last_name = models.CharField('Last Name', max_length=25)
-    email = models.EmailField('Email', max_length=25)
-    liked_books = models.ManyToManyField(Book, blank=True)
-
-    def __str__(self):
-        return self.first_name, self.last_name

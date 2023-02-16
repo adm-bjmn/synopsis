@@ -19,12 +19,24 @@
     <!-- Genres
   show all genres as buttons for the user to select-->
   <div>
-    {% for books in display_books %}
+    {% for book in display_books %}
     <div>
-    <a href = "{% url 'book_info' books.id %}" class = 'synopsis'>{{books.synopsis}}</a>
+    <a href = "{% url 'book_info' book.id %}" class = 'synopsis'>{{book.synopsis}}</a>
     </div>
+
+    <!--
+    <div class = 'like-book'>
+      <form action= "{% url 'like_book' book.id  %}" method="POST" class = 'auth-form'>
+        {% csrf_token %}
+      <div class = 'genre-button-wrapper'>
+        <input type="hidden" name="next" value="{{ request.path }}">
+      <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">like</button></h4>
+      </div>
+    </div>
+    -->
     {% endfor %}
   </div>
+
 </section>
 
 {% else %}
