@@ -16,8 +16,11 @@
 
 
 <div>
-<a href= "#"><button type="button" class="btn btn-outline-secondary">Update info</button></a>
+<a href= "{% url 'update_profile' user.id %}"><button type="button" class="btn btn-outline-secondary">Update info</button></a>
 </div>
+<div>
+  <a href= "{% url 'change_password' user.id %}"><button type="button" class="btn btn-outline-secondary">Change Password</button></a>
+  </div>
 <a class="nav-link" href="{% url 'my_books' %}">My Books</a>
 
 {% else %}

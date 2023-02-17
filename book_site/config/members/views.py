@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
-from .forms import RegisterUserForm
-
+from django.contrib.auth.forms import PasswordChangeForm
+from .forms import RegisterUserForm, EditProfileForm, ChangeUserPassword
+from .models import User
 # Create your views here.
 
 
@@ -21,7 +21,7 @@ def login_user(request):
             messages.success(request, ('No soz...'))
             return redirect('login_user')
     else:
-        return render(request, 'registration/login.html', {})
+        return render(request, 'members/login.html', {})
 
 
 def logout_user(request):
@@ -44,4 +44,33 @@ def register_user(request):
             return redirect('dashboard')
     else:
         form = RegisterUserForm()
-    return render(request, 'registration/register.html', {'form': form, })
+    return render(request, 'members/register.html', {'form': form, })
+
+
+def user_profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    return render(request, 'members/profile.html', {'user': user, })
+
+
+def update_profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    form = EditProfileForm(request.POST or None, instance=user)
+    if form.is_valid():
+        form.save()
+        return redirect('profile', user_id)
+    else:
+        return render(request, 'members/update_profile.html', {'user': user, 'form': form})
+
+
+def change_password(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    if request.method == 'POST':
+        form = ChangeUserPassword(data=request.POST, user=user)
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request, (f'Welcome {user}! \n Lets find you something to read...'))
+            return redirect('profile', user_id)
+    else:
+        form = ChangeUserPassword(user=user)
+    return render(request, 'members/change_password.html', {'form': form, })

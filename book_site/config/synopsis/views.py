@@ -20,7 +20,6 @@ def dashboard(request):
         # the queary dictionary which has the CSRF token and the name
         # of the button pressed on the dashobard.html
         genre_id = list(request.POST)[1]
-        print(f'Genre ID = {genre_id}')
         return synopsis(request, genre_id)
     else:
         return render(request, 'synopsis/dashboard.html',
@@ -79,10 +78,3 @@ def my_books(request):
         messages.success(request, (
             "You must be logged in to view this page"))
         return redirect('home')
-
-
-def user_profile(request):
-    user = request.user
-    print(user)
-    # show the books infor using the primary key from the genres page.
-    return render(request, 'synopsis/profile.html', {'user': user, })

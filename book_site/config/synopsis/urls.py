@@ -9,5 +9,5 @@ urlpatterns = [
     path('like_book/<int:id>',
          views.like_view, name='like_book'),
     path('my_books', views.my_books, name='my_books'),
-    path('profile/', views.user_profile, name='user_profile')
+
 ]

@@ -20,7 +20,7 @@
 
 ===== ALWAYS ON TOP ===== -->
 <section class = 'base-section'>
-  <div class = 'main-container'>
+  <div class = 'top-container'>
     <div class = 'header'>
       <!-- If use user is auth change to logout -->
       <div>
@@ -52,7 +52,7 @@
                 <a class="nav-link" href="{% url 'my_books' %}">My Books</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'user_profile' %}">Profile</a>
+                <a class="nav-link" href="{% url 'profile' user.id %}">Profile</a>
               </li>
               
             </ul>
