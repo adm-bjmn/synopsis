@@ -18,7 +18,8 @@ class UserProfile(admin.StackedInline):
 
 class UserAdmin(admin.ModelAdmin):
     model = User
-    fields = ['username', 'email', 'first_name', 'last_name']
+    fields = ['username', 'email', 'first_name',
+              'last_name', 'password', 'is_staff']
     inlines = [UserProfile]
 
 

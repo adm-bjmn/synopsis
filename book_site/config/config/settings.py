@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # apps
     'members',
     'synopsis',
+    'upload',
 ]
 
 MIDDLEWARE = [

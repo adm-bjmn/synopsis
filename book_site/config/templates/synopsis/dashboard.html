@@ -14,7 +14,7 @@
 {% if user.is_authenticated %}
 <section class = 'home-section'>
   <div class = 'site-intro-wrapper'>
-    <h3>Welcome {{ first_name }}. 
+    <h3>Welcome {{ user.first_name }}. 
       Lets find you something to read...</h3>
   </div>
   <div> 
@@ -43,3 +43,6 @@
   
 {% endblock content%}
 
+
+
+<a href= "{% url 'synopsis' genre.id %}"><button type="button" class="btn btn-outline-secondary">{{back}}</button></a>

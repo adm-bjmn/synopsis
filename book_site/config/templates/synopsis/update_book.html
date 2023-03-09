@@ -1,0 +1,50 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+  {% if user.is_authenticated %}
+    Login Successful 
+  {%else%}
+    Please Login
+  {% endif %}
+{% endblock title %}
+
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+{% if form.errors %}
+    <p>There was an Error With your regirstration. Details:</p>
+    {{form.errors}}
+{% endif %}
+
+
+<div> Update Info.</div>
+
+<div class = 'register-form'>
+  <form action= "" method="POST" class = 'auth-form'>
+      {% csrf_token %}
+      {% for fields in form  %}
+      <label class="form-label">{{ fields.label }}</label>
+      <div style="padding-bottom: 5px;">{{ fields }}</div>
+
+      {% endfor %}
+    <div style = 'padding-top: 20px;'>
+      <input type="submit", value = "Update", class="btn btn-outline-secondary" style="width:100%"></input>
+    </div>
+  </form>
+  <div style="text-align: center; padding-top:5px;">
+  </div>
+</div>
+</div>
+
+<div style='height: 300px;'></div>
+
+
+
+{% else %}
+  <h3> Please Login to view this page...</h3>
+{% endif %}
+  
+{% endblock content%}

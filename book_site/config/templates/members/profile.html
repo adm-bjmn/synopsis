@@ -21,10 +21,14 @@
 <div>
   <a href= "{% url 'change_password' user.id %}"><button type="button" class="btn btn-outline-secondary">Change Password</button></a>
   </div>
-<a class="nav-link" href="{% url 'my_books' %}">My Books</a>
+  {% if request.user.is_staff == False %}
+  <div>
+    <a href= "{% url 'delete_user' user.id %}"><button type="button" class="btn btn-outline-secondary">delete Profile</button></a>
+    </div>
+  {% endif %}
 
 {% else %}
   <h3> Please Login to view this page...</h3>
 {% endif %}
   
-{% endblock content%}
+{% endblock content%}s

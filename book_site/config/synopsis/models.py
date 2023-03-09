@@ -20,7 +20,10 @@ class Book(models.Model):
     genre = models.ForeignKey(
         Genre, on_delete=models.SET_DEFAULT, default='Adventure')
     purchase_link = models.URLField('Link to Purchase',)
-    liked_by = models.ManyToManyField(User,  symmetrical=False, blank=True)
+    liked_by = models.ManyToManyField(
+        User,  symmetrical=False, blank=True, related_name='liked_by')
+    seen_by = models.ManyToManyField(
+        User,  symmetrical=False, blank=True, related_name='seen_by')
 
     def __str__(self):
         return self.title

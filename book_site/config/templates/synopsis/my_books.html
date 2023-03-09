@@ -12,13 +12,25 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-<section class = 'home-section'>
+  {% if my_books %}
+    <section class = 'home-section'>
+      {% for book in my_books %}
+        {{book.title}}
+        {{book.author}}
+        <div class = 'like-book'>
+          <form action= "{% url 'remove_book' book.id %}" method="POST" class = 'auth-form'>
+            {% csrf_token %}
+        <div class = 'genre-button-wrapper'>
+            <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove from My Books</button></h4>
+        </div>
+        </form>
 
-{% for books in my_books %}
-{{books.title}}
-{{books.author}}
-{% endfor%}
-
+      <br/>
+      {% endfor%}
+  {% else %}
+    <h1>You hevnet liked any books yet, click 
+      <a href = "{% url 'dashboard' %}" class = 'synopsis'>here </a> to start...</h1>
+  {% endif %}
 {% else %}
   <h3> Please Login to view this page...</h3>
 {% endif %}

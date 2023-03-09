@@ -19,24 +19,32 @@
     <!-- Genres
   show all genres as buttons for the user to select-->
   <div>
-    {% for book in display_books %}
-    <div>
-    <a href = "{% url 'book_info' book.id %}" class = 'synopsis'>{{book.synopsis}}</a>
-    </div>
-
-    <!--
-    <div class = 'like-book'>
-      <form action= "{% url 'like_book' book.id  %}" method="POST" class = 'auth-form'>
-        {% csrf_token %}
-      <div class = 'genre-button-wrapper'>
-        <input type="hidden" name="next" value="{{ request.path }}">
-      <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">like</button></h4>
+    {% for book in pages %}
+      <div>
+        <a href = "{% url 'book_info' book.id %}" class = 'synopsis'>{{book.synopsis}}</a>
       </div>
-    </div>
-    -->
+
+      <!--//// TESTING PAGINATION ////
+      {{ pages }}<br/>
+      Has Next : {{pages.has_next}}<br/>
+      Has Prev : {{pages.has_previous}}<br/>
+      Current : {{pages.number}}<br/>
+      Total : {{pages.paginator.num_pages}}<br/>
+      //// -->
+
+
+      {% if pages.has_next %}
+          <a type="submit" href="?page={{ pages.next_page_number }}" name="button" value="button">next</a><br/> 
+      {% endif%}
+      {% if pages.has_next is False %}
+      Thats it for {{genre_name }} this month. 
+      <a href = "{% url 'dashboard' %}" class = 'synopsis'>back to genres.</a>
+      {% endif %}
     {% endfor %}
+   
   </div>
 
+  
 </section>
 
 {% else %}
@@ -44,3 +52,5 @@
 {% endif %}
   
 {% endblock content%}
+
+
