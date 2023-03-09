@@ -74,3 +74,12 @@ def change_password(request, user_id):
     else:
         form = ChangeUserPassword(user=user)
     return render(request, 'members/change_password.html', {'form': form, })
+
+
+def delete_user(request, user_id):
+    user_to_delete = get_object_or_404(User, id=user_id)
+    logout(request)
+    user_to_delete.delete()
+    messages.success(
+        request, (f'Your Profile has been deleted.'))
+    return redirect('home')
