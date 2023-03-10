@@ -12,6 +12,7 @@
 {% block content %}
 
 {% if user.is_authenticated %}
+<!-- must be logged in-->
   {% if my_books %}
     <section class = 'home-section'>
       {% for book in my_books %}
