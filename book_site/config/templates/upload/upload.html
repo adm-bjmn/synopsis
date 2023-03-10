@@ -13,7 +13,28 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-upload
+Up load csv file to repololate synopsis with this months new releases. Please ensure file types are correct. for more infor mation click 
+<a class="nav-link" href="#">here</a>
+<div class = 'upload-form'>
+  <form action= "#" method="POST" class = 'auth-form' enctype="multipart/form-data">
+      {% csrf_token %}
+      {% for fields in form  %}
+
+      <label class="form-label">{{ fields.label }}</label> 
+      <div style="padding-bottom: 5px;">{{ fields }}</div>
+
+      {% endfor %}
+    <div style = 'padding-top: 20px;'>
+      <input type="submit" class="btn btn-outline-secondary" style="width:100%"></input>
+    </div>
+  </form>
+  <div style="text-align: center; padding-top:5px;">
+    Please ensure the file is the correct format before uploading. 
+  </div>
+</div>
+</div>
+
+<div style='height: 300px;'></div>
 
 {% else %}
   <h3> You must be Admin to view this page.</h3>
