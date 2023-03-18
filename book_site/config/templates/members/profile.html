@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-
+  {% if user.is_authenticated %}
+   - {{user.username}}
+  {%else%}
+   - Please Login
+  {% endif %}
 {% endblock title %}
 
 

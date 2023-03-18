@@ -1,58 +1,55 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block title %} {% if user.is_authenticated %} -
+Search Book {%else%} - Please Login {% endif %} {% endblock title %} {% block
+content %} {% if user.is_authenticated %} {% if form.errors %}
+<p>There was an Error With your regirstration. Details:</p>
+{{form.errors}} {% endif %}
 
-{% block title %}
-  {% if user.is_authenticated %}
-    Login Successful 
-  {%else%}
-    Please sLogin
-  {% endif %}
-{% endblock title %}
-
-
-{% block content %}
-
-{% if user.is_authenticated %}
-
-{% if form.errors %}
-    <p>There was an Error With your regirstration. Details:</p>
-    {{form.errors}}
-{% endif %}
-
-
-<div> Update Info.</div>
-{% if criteria %}
-    {% if book_to_update %}
-        {{book_to_update.title}}<br/>
-        <div>
-          <a href= "{% url 'update_book' book_to_update.id %}"><button type="button" class="btn btn-outline-secondary">Update Book</button></a>
-          </div>
-          <br/>
-          <div>
-            <a href= "{% url 'delete_book' book_to_update.id %}"><button type="button" class="btn btn-outline-secondary">Delete Book</button></a>
-          </div>
-
-    {% else %}
-    <form method=POST action="#" class="d-flex" role="search">
-      {% csrf_token %}
-    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="criteria">
-      <button class="btn btn-outline-secondary" type="submit">Search</button>
-    </form>
-    Book Not FOund
-    {% endif %}
-{% else %}
-<form method=POST action="#" class="d-flex" role="search">
-    {% csrf_token %}
-  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="criteria">
-    <button class="btn btn-outline-secondary" type="submit">Search</button>
-  </form>
-
-{% endif %}
-<div style='height: 300px;'></div>
+<div>Update Info.</div>
+{% if criteria %} {% if book_to_update %} {{book_to_update.title}}<br />
+<div>
+  <a href="{% url 'update_book' book_to_update.id %}"
+    ><button type="button" class="btn btn-outline-secondary">
+      Update Book
+    </button></a
+  >
+</div>
+<br />
+<div>
+  <a href="{% url 'delete_book' book_to_update.id %}"
+    ><button type="button" class="btn btn-outline-secondary">
+      Delete Book
+    </button></a
+  >
+</div>
 
 {% else %}
-  <h3> You Must be logged in as admin to view this page...</h3>
+<form method="POST" action="#" class="d-flex" role="search">
+  {% csrf_token %}
+  <input
+    class="form-control me-2"
+    type="search"
+    placeholder="Search"
+    aria-label="Search"
+    name="criteria"
+  />
+  <button class="btn btn-outline-secondary" type="submit">Search</button>
+</form>
+Book Not FOund {% endif %} {% else %}
+<form method="POST" action="#" class="d-flex" role="search">
+  {% csrf_token %}
+  <input
+    class="form-control me-2"
+    type="search"
+    placeholder="Search"
+    aria-label="Search"
+    name="criteria"
+  />
+  <button class="btn btn-outline-secondary" type="submit">Search</button>
+</form>
+
 {% endif %}
-  
-{% endblock content%}
+<div style="height: 300px"></div>
 
-
+{% else %}
+<h3>You Must be logged in as admin to view this page...</h3>
+{% endif %} {% endblock content%}

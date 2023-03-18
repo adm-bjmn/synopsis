@@ -2,9 +2,9 @@
 
 {% block title %}
   {% if user.is_authenticated %}
-    Login Successful 
+  - Welcome {{user.first_name}}
   {%else%}
-    Please Login
+    - Please Login
   {% endif %}
 {% endblock title %}
 
