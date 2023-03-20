@@ -27,12 +27,14 @@
   </div>
   {% if request.user.is_staff == False %}
   <div>
-    <a href= "{% url 'delete_user' user.id %}"><button type="button" class="btn btn-outline-secondary">delete Profile</button></a>
+    <a href= "{% url 'delete_user' user.id %}"><button type="button" onclick="if(confirm('Are You sure? This cannot be undone.')){}else{return false;};" id="deletebutton" class="btn btn-outline-secondary">Delete Profile</button></a>
     </div>
+
+    
   {% endif %}
 
 {% else %}
   <h3> Please Login to view this page...</h3>
 {% endif %}
-  
+
 {% endblock content%}s
