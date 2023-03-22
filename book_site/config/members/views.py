@@ -18,7 +18,7 @@ def login_user(request):
                 request, (f'Logged in as {user}'))
             return redirect('dashboard')  # redirect to genres
         else:
-            messages.success(request, ('No soz...'))
+            messages.success(request, ('Login in Failed.'))
             return redirect('login_user')
     else:
         return render(request, 'members/login.html', {})
