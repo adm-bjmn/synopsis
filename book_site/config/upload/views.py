@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 from django.contrib import messages
 # Create your views here.
 
-
+'''
 # --- Unused function ---
 def upload_by_csv(request):
     form = upload_form(request.POST or None, request.FILES or None)
@@ -50,6 +50,7 @@ def upload_by_csv(request):
         new_file.save()
     return render(request, 'upload/upload.html', {'form': form, })
 # --- ---
+'''
 
 
 def upload_by_scrape(request):
@@ -70,7 +71,7 @@ def upload_by_scrape(request):
         for page_number in range(0, 2):
             url = f'https://www.waterstones.com/campaign/new-books/sort/pub-date-desc/page/{page_number}'
             page = requests.get(url, headers=headers)
-            # print(page.status_code)
+            print(page.status_code)
             soup = BeautifulSoup(page.text, 'lxml')
             # print(soup.title.text)
             books = soup.find_all('div', {
@@ -83,7 +84,7 @@ def upload_by_scrape(request):
                         'a', {'class': 'title link-invert dotdotdot'})['href']
                 links_list.append(book_url)
         # print(links_list)
-        # print(len(links_list))
+        print(len(links_list))
 
         # ============== WEBSCRAPING FOR BOOK INFO ==============
         # for link in links_list:
@@ -140,7 +141,7 @@ def upload_by_scrape(request):
         genre_list.append(genre)
         # if 'travel' in genre:
         # print('oui madam')
-        book_info.append(' '.join(genre))
+        book_info.append(genre)
 
         # == Link ==
         link = url
@@ -150,19 +151,26 @@ def upload_by_scrape(request):
         # == Image ==
         img = soup.find('img', {'itemprop': 'image'})['src']
         book_info.append(img)
+
         # print(img)
-        '''
+'''
+        # == ADD BOOK TO DATABASE ==
+        print(book_info)
+        all_genres = ['adventure', 'sciencefiction',
+                      'fiction', 'romanticfiction']
         Book.objects.create(
             title=book_info[0],
             author=book_info[1],
-            synopsis=book_info[2],
             publish_date=book_info[3],
-            genre=book_info[4],
+            synopsis=book_info[2],
+            genre=[
+                Book.genre.add(i) for i in book_info[4] if i in all_genres],
             purchase_link=book_info[5],
             img_link=book_info[6],
         )
-        '''
+
         messages.success(request, ('The Database has been updated'))
         return render(request, 'synopsis/home.html', {})
     else:
         return render(request, 'upload/upload.html', {})
+'''
