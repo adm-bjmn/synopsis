@@ -89,7 +89,7 @@ def upload_by_scrape(request):
         # ============== WEBSCRAPING FOR BOOK INFO ==============
         # for link in links_list:
         # url = link
-        url = links_list[1]
+        url = links_list[14]
         page = requests.get(url, headers=headers)
         # print(page.status_code)
         soup = BeautifulSoup(page.text, 'lxml')
@@ -151,26 +151,24 @@ def upload_by_scrape(request):
         # == Image ==
         img = soup.find('img', {'itemprop': 'image'})['src']
         book_info.append(img)
-
         # print(img)
-'''
-        # == ADD BOOK TO DATABASE ==
         print(book_info)
-        all_genres = ['adventure', 'sciencefiction',
-                      'fiction', 'romanticfiction']
-        Book.objects.create(
+
+        # == ADD BOOK TO DATABASE ==
+
+        all_genres = {'crime': 6, }
+
+        book = Book.objects.create(
             title=book_info[0],
             author=book_info[1],
             publish_date=book_info[3],
             synopsis=book_info[2],
-            genre=[
-                Book.genre.add(i) for i in book_info[4] if i in all_genres],
             purchase_link=book_info[5],
-            img_link=book_info[6],
-        )
+            img_link=book_info[6],)
+        book.genre.set(
+            [all_genres.get(i) for i in book_info[4] if i in all_genres.keys()])
 
         messages.success(request, ('The Database has been updated'))
         return render(request, 'synopsis/home.html', {})
     else:
         return render(request, 'upload/upload.html', {})
-'''

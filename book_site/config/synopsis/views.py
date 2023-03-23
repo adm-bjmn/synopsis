@@ -46,15 +46,19 @@ def synopsis(request, genre_id):
 
 
 def book_info(request, book_id):
+
     book = Book.objects.get(pk=book_id)
     liked = False
     if book.liked_by.filter(id=request.user.id).exists():
         liked = True
+    # get book genres and output them to the contexts dictionary.
+    # try to figure out how to get a back button.
     # show the books infor using the primary key from the genres page.
     return render(request, 'synopsis/book_info.html', {'book': book, 'liked': liked})
 
 
 def like_view(request, id):
+    book_id = str(id)
     book = get_object_or_404(Book, id=request.POST.get('book.id'))
     member = request.user.member
     liked = False
@@ -66,7 +70,7 @@ def like_view(request, id):
         member.liked_books.add(book.id)
         book.liked_by.add(request.user.id)
         liked = True
-    return HttpResponseRedirect(reverse('book_info', args=str(id)))
+    return HttpResponseRedirect(reverse('book_info', kwargs={'book_id': book_id}))
 
 
 def my_books(request):

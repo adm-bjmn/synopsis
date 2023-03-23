@@ -14,15 +14,12 @@
 
 {% if user.is_authenticated %}
 <section class = 'home-section'>
-
+{{book.id}}
 {{book.title}}<br>
 {{book.author}}<br>
 {{book.publish_date}}<br>
 {{book.synopsis}}<br>
-
-<div>
-<a href= "{% url 'synopsis' book.genre.id %}"><button type="button" class="btn btn-outline-secondary">Next Book</button></a>
-</div>
+{{book.genre.all}}
 
 <div class = 'like-book'>
   <form action= "{% url 'like_book' book.id  %}" method="POST" class = 'auth-form'>
