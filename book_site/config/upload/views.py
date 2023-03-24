@@ -8,11 +8,17 @@ import requests
 import lxml
 from bs4 import BeautifulSoup
 from django.contrib import messages
+import pandas as pd
+from datetime import datetime
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from django.core.files import File
+from django.conf import settings
 # Create your views here.
 
-'''
+
 # --- Unused function ---
-def upload_by_csv(request):
+def backup_via_csv(request):
     form = upload_form(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
@@ -50,12 +56,14 @@ def upload_by_csv(request):
         new_file.save()
     return render(request, 'upload/upload.html', {'form': form, })
 # --- ---
-'''
+
+# approx 25 minutes
 
 
 def upload_by_scrape(request):
     if request.method == "POST":
         user_agent = request.POST['user_agent']
+        Book.objects.all().delete()
         # print(user_agent)
         # ============== LISTS ==============
         links_list = []
@@ -68,7 +76,7 @@ def upload_by_scrape(request):
         headers = {
             'User-Agent': user_agent}
 
-        for page_number in range(0, 2):
+        for page_number in range(0, 26):
             url = f'https://www.waterstones.com/campaign/new-books/sort/pub-date-desc/page/{page_number}'
             page = requests.get(url, headers=headers)
             print(page.status_code)
@@ -87,88 +95,103 @@ def upload_by_scrape(request):
         print(len(links_list))
 
         # ============== WEBSCRAPING FOR BOOK INFO ==============
-        # for link in links_list:
-        # url = link
-        url = links_list[14]
-        page = requests.get(url, headers=headers)
-        # print(page.status_code)
-        soup = BeautifulSoup(page.text, 'lxml')
-        book_info = []
-        print(soup.title.text)
+        for link in links_list:
+            url = link
+            # url = links_list[14]
+            page = requests.get(url, headers=headers)
+            # print(page.status_code)
+            soup = BeautifulSoup(page.text, 'lxml')
+            book_info = []
+            print(soup.title.text)
 
-        # == Title ==
-        title = soup.find(
-            'span', {'class': 'book-title'}).text
-        book_info.append(title)
-        # print(title)
+            # == Title ==
+            title = soup.find(
+                'span', {'class': 'book-title'}).text
+            book_info.append(title)
+            # print(title)
 
-        # == Author ==
-        author = soup.find(
-            'span', {'itemprop': 'author'}).text
-        book_info.append(author)
-        # print(author)
+            # == Author ==
+            author = soup.find(
+                'span', {'itemprop': 'author'}).text
+            book_info.append(author)
+            # print(author)
 
-        # == Synopsis ==
-        synopsis = soup.find(
-            'div', {'id': 'scope_book_description'})
-        unwanted = synopsis.find('strong')
-        if unwanted:
+            # == Synopsis ==
+            synopsis = soup.find(
+                'div', {'id': 'scope_book_description'})
+            unwanted = synopsis.find('strong')
+            if unwanted:
+                unwanted.extract()
+            else:
+                None
+            # print(synopsis.text.strip())
+            book_info.append(synopsis.text.strip().replace('\n', ' '))
+
+            # == Publish Date ==
+            publish_date = soup.find(
+                'meta', {'itemprop': 'datePublished'})['content']
+            book_info.append(publish_date)
+            # print(publish_date)
+
+            # == Genre ==
+            genre = soup.find(
+                'div', {'class': 'breadcrumbs span12'})
+            unwanted = (genre.find('strong'))
             unwanted.extract()
-        else:
-            None
-        # print(synopsis.text.strip())
-        book_info.append(synopsis.text.strip().replace('\n', ' '))
+            unwanted = (genre.find('br'))
+            unwanted.extract()
+            genre = genre.text.strip()
+            remove_list = ['&', '\n', '>']
+            for i in remove_list:
+                genre = genre.replace(i, ',')
+            genre = genre.split(',')
+            genre = [items.strip().replace(' ', '').lower() for items in genre]
+            genre_list.append(genre)
+            # if 'travel' in genre:
+            # print('oui madam')
+            book_info.append(genre)
 
-        # == Publish Date ==
-        publish_date = soup.find(
-            'meta', {'itemprop': 'datePublished'})['content']
-        book_info.append(publish_date)
-        # print(publish_date)
+            # == Link ==
+            link = url
+            # print(link)
+            book_info.append(link)
 
-        # == Genre ==
-        genre = soup.find(
-            'div', {'class': 'breadcrumbs span12'})
-        unwanted = (genre.find('strong'))
-        unwanted.extract()
-        unwanted = (genre.find('br'))
-        unwanted.extract()
-        genre = genre.text.strip()
-        remove_list = ['&', '\n', '>']
-        for i in remove_list:
-            genre = genre.replace(i, ',')
-        genre = genre.split(',')
-        genre = [items.strip().replace(' ', '').lower() for items in genre]
-        genre_list.append(genre)
-        # if 'travel' in genre:
-        # print('oui madam')
-        book_info.append(genre)
+            # == Image ==
+            img = soup.find('img', {'itemprop': 'image'})['src']
+            book_info.append(img)
+            # print(img)
+            print(book_info)
+            book_list.append(book_info)
 
-        # == Link ==
-        link = url
-        # print(link)
-        book_info.append(link)
+            # == ADD BOOK TO DATABASE ==
+            # update genres
+            all_genres = {'crime': 6, }
 
-        # == Image ==
-        img = soup.find('img', {'itemprop': 'image'})['src']
-        book_info.append(img)
-        # print(img)
-        print(book_info)
-
-        # == ADD BOOK TO DATABASE ==
-
-        all_genres = {'crime': 6, }
-
-        book = Book.objects.create(
-            title=book_info[0],
-            author=book_info[1],
-            publish_date=book_info[3],
-            synopsis=book_info[2],
-            purchase_link=book_info[5],
-            img_link=book_info[6],)
-        book.genre.set(
-            [all_genres.get(i) for i in book_info[4] if i in all_genres.keys()])
-
+            book = Book.objects.create(
+                title=book_info[0],
+                author=book_info[1],
+                publish_date=book_info[3],
+                synopsis=book_info[2],
+                purchase_link=book_info[5],
+                img_link=book_info[6],)
+            book.genre.set(
+                [all_genres.get(i) for i in book_info[4] if i in all_genres.keys()])
+        generate_csv(book_list)
         messages.success(request, ('The Database has been updated'))
         return render(request, 'synopsis/home.html', {})
     else:
         return render(request, 'upload/upload.html', {})
+
+
+def generate_csv(book_list):
+    columns = ['title', 'author', 'publish_date',
+               'synopsis', 'genre', 'purchase_link', 'img_link']
+    date = datetime.now().date()
+    df = pd.DataFrame(book_list, columns=columns)
+    print(df.head())
+    new_file = df.to_csv(f'{settings.MEDIA_ROOT}/{date}.csv',
+                         encoding='utf-8', index=False)
+    # add to csv models
+    csv_file.objects.create(
+        file_name=f'{date}.csv', file_processed=True)
+    return None
