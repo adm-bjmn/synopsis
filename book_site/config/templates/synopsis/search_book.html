@@ -15,7 +15,7 @@
     {{form.errors}} 
   {% endif %}
 
-<div>Update Info.</div>
+<div> Search for book by ID, Title or Author.</div>
 {% if criteria %} 
   {% if book_to_update %} 
     {{book_to_update.title}}<br />
@@ -34,7 +34,11 @@
         </button></a
       >
     </div>
-
+    <br />
+    <div>
+      <a href="javascript:history.go(-1)" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+    
     {% else %}
     <form method="POST" action="#" class="d-flex" role="search">
       {% csrf_token %}

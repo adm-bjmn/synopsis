@@ -16,13 +16,14 @@
   {% if my_books %}
     <section class = 'home-section'>
       {% for book in my_books %}
+      <a href = "{% url 'book_info' book.id %}" class = 'synopsis'>
         {{book.title}}
-        {{book.author}}
+        {{book.author}}</a>
         <div class = 'like-book'>
           <form action= "{% url 'remove_book' book.id %}" method="POST" class = 'auth-form'>
             {% csrf_token %}
         <div class = 'genre-button-wrapper'>
-            <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove from My Books</button></h4>
+            <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove</button></h4>
         </div>
         </form>
 

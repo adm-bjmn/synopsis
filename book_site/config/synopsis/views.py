@@ -98,7 +98,10 @@ def search_book(request):
     if request.method == "POST":
         criteria = request.POST['criteria']
         book_to_update = Book.objects.filter(
-            Q(title__contains=criteria)).first()
+            Q(id__contains=criteria) |
+            Q(title__contains=criteria) |
+            Q(author__contains=criteria)
+        ).first()
         return render(request, 'synopsis/search_book.html', {'criteria': criteria, 'book_to_update': book_to_update, })
     else:
         return render(request, 'synopsis/search_book.html', {})
