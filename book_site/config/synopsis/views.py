@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Genre, Book, User
-from .forms import UpdateBookForm, BlankForm
+from .forms import UpdateBookForm, BlankForm, GenreForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -16,7 +16,7 @@ def home(request):
 
 def dashboard(request):
     genre_list = Genre.objects.all().order_by('genre')
-    form = BlankForm
+    form = BlankForm()
     if request.method == 'POST':
         # obtain the vlaue of the button pressed, this value is taken from
         # the queary dictionary which has the CSRF token and the name

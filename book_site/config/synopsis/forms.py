@@ -3,6 +3,15 @@ from .models import Genre, Book
 from django.forms import ModelForm
 
 
+class GenreForm(forms.Form):
+    genre_choices = []
+    for i in Genre.objects.all():
+        genre_choices.append((i.id, i.genre))
+    selected_genres = forms.MultipleChoiceField(
+        choices=tuple(genre_choices),
+        widget=forms.CheckboxSelectMultiple())
+
+
 class BlankForm():
     blank = forms.CharField()
 
