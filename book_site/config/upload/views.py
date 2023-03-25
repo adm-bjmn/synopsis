@@ -3,7 +3,7 @@ from .forms import upload_form
 from .models import csv_file
 import csv
 import requests
-from synopsis.models import Book
+from synopsis.models import Book, Genre
 import requests
 import lxml
 from bs4 import BeautifulSoup
@@ -14,6 +14,7 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.core.files import File
 from django.conf import settings
+
 # Create your views here.
 
 
@@ -165,7 +166,9 @@ def upload_by_scrape(request):
 
             # == ADD BOOK TO DATABASE ==
             # update genres
-            all_genres = {'crime': 6, }
+            all_genres = {}
+            for obj in Genre.objects.all():
+                all_genres[obj.genre] = obj.id
 
             book = Book.objects.create(
                 title=book_info[0],
@@ -176,6 +179,7 @@ def upload_by_scrape(request):
                 img_link=book_info[6],)
             book.genre.set(
                 [all_genres.get(i) for i in book_info[4] if i in all_genres.keys()])
+        print(all_genres)
         generate_csv(book_list)
         messages.success(request, ('The Database has been updated'))
         return render(request, 'synopsis/home.html', {})
