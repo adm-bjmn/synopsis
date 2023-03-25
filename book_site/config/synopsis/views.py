@@ -16,29 +16,39 @@ def home(request):
 
 def dashboard(request):
     genre_list = Genre.objects.all().order_by('genre')
-    form = BlankForm()
     if request.method == 'POST':
-        # obtain the vlaue of the button pressed, this value is taken from
-        # the queary dictionary which has the CSRF token and the name
-        # of the button pressed on the dashobard.html
-        genre_id = list(request.POST)[1]
-        return redirect(synopsis, genre_id)
+        form = GenreForm(request.POST)
+        if form.is_valid():
+            selected_genres = form.cleaned_data.get('selected_genres')
+            print(f'form_selected: {type(selected_genres)}')
+            selected_genres = '-'.join(selected_genres)
+
+        return redirect(synopsis, selected_genres)
+        # return redirect('dashboard')
     else:
+        form = GenreForm()
         return render(request, 'synopsis/dashboard.html',
                       {'form': form, 'genre_list': genre_list})
 
 
-def synopsis(request, genre_id):
-    display_books = Book.objects.all().filter(
-        genre=genre_id).exclude(liked_by=request.user.id)
+def synopsis(request, selected_genres):
+    selected_genres = selected_genres.split('-')
+    print(f'selected genres: {selected_genres}')
+    print(f'selected type: {type(selected_genres)}')
+    display_books = (Book.objects.all().filter(
+        genre__in=selected_genres)).exclude(
+            liked_by=request.user.id).order_by('?').distinct()
+    print(f'DISPLAY BOOKS: {display_books}')
+    print(len(display_books))
     # display books = display_books.remove if seen_by == user.id
-    genre_name = Genre.objects.get(id=genre_id).genre
+    selected_genres = '-'.join(selected_genres)
+    request.session['selected_genres'] = selected_genres
     if display_books.exists():
         p_n = Paginator(display_books, 1)
         page = request.GET.get('page')
         pages = p_n.get_page(page)
         return render(request, 'synopsis/synopsis.html',
-                      {'pages': pages, 'genre_name': genre_name})
+                      {'pages': pages, 'selected_genres': selected_genres})
     else:
         messages.success(request, (
             "You've seen all there is to see for " + str(genre_name) + " this month, check back soon for more new realeases."))
@@ -46,7 +56,7 @@ def synopsis(request, genre_id):
 
 
 def book_info(request, book_id):
-
+    selected_genres = request.session.get('selected_genres')
     book = Book.objects.get(pk=book_id)
     liked = False
     if book.liked_by.filter(id=request.user.id).exists():
@@ -54,7 +64,7 @@ def book_info(request, book_id):
     # get book genres and output them to the contexts dictionary.
     # try to figure out how to get a back button.
     # show the books infor using the primary key from the genres page.
-    return render(request, 'synopsis/book_info.html', {'book': book, 'liked': liked})
+    return render(request, 'synopsis/book_info.html', {'book': book, 'liked': liked, 'selected_genres': selected_genres})
 
 
 def like_view(request, id):

@@ -28,7 +28,11 @@
     <form action= "" method="POST" class = 'auth-form'>
       {% csrf_token %}
       {{ form.as_p }}
+      <div style = 'padding-top: 20px;'>
+        <input type="submit", value = "Let's Go", class="btn btn-outline-secondary" style="width:100%"></input>
+      </div>
 
+      <!-- Use this code to style the MC options -->
     {% for genre in genre_list %}
     <div class = 'genre-button-wrapper'>
     <h4><input class='genre-button' type="submit" name="{{genre.id}}" value="{{genre}}"></input></h4>

@@ -33,6 +33,15 @@
     {% endif %}
   </div>
 </div>
+<h4><a class='genre-button'href="{% url 'synopsis' selected_genres %}">Back to Synopsis</a></h4>
+
+<!-- these both go back. 
+<div>
+  <a href="{{request.META.HTTP_REFERER|escape}}">Back</a>
+  <a href="javascript:history.go(-1)" class="btn btn-default">Cancel</a>
+</div>
+-->
+
 
 {% else %}
   <h3> Please Login to view this page...</h3>
