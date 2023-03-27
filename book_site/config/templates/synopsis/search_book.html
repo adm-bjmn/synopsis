@@ -37,7 +37,7 @@
     <br/>
       <div class="update-book-button">
         <a href="{% url 'delete_book' book_to_update.id %}"
-          ><button type="button" class="btn btn-outline-secondary">
+          ><button type="button" class="btn btn-outline-secondary" onclick="if(confirm('Are You sure? This cannot be undone.')){}else{return false;};">
             Delete Book
           </button></a>
       </div>
