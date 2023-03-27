@@ -1,74 +1,104 @@
 {% extends 'base.html' %}
-
-{% block title %} 
-  {% if user.is_authenticated %} -
-    - Search Book 
-  {%else%} - Please Login 
+ {% block title %}
+  {% if user.is_authenticated %} 
+  - Search Book 
+  {%else%} 
+  - Please Login 
   {% endif %} 
-{% endblock title %} 
-
-{% block content %} 
-
+  {% endblock title %} 
+{% block content %}
+<div>
+  <h4 class="main-titles">Update Book</h4>
+</div>
 {% if user.is_authenticated %} 
   {% if form.errors %}
-    <p>There was an Error With your submission. Details:</p>
-    {{form.errors}} 
+  <p>There was an Error With your submission. Details:</p>
+  {{form.errors}} 
   {% endif %}
 
-<div> Search for book by ID, Title or Author.</div>
-{% if criteria %} 
-  {% if book_to_update %} 
-    {{book_to_update.title}}<br />
-    <div>
-      <a href="{% url 'update_book' book_to_update.id %}"
-        ><button type="button" class="btn btn-outline-secondary">
-          Update Book
-        </button></a
-      >
-    </div>
-    <br />
-    <div>
-      <a href="{% url 'delete_book' book_to_update.id %}"
-        ><button type="button" class="btn btn-outline-secondary">
-          Delete Book
-        </button></a
-      >
-    </div>
-    <br />
-    <div>
-      <a href="javascript:history.go(-1)" class="btn btn-outline-secondary">Cancel</a>
-    </div>
-    
-    {% else %}
-    <form method="POST" action="#" class="d-flex" role="search">
-      {% csrf_token %}
-      <input
-        class="form-control me-2"
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-        name="criteria"
-      />
-      <button class="btn btn-outline-secondary" type="submit">Search</button>
-    </form>
-    Book Not FOund {% endif %} {% else %}
-    <form method="POST" action="#" class="d-flex" role="search">
-      {% csrf_token %}
-      <input
-        class="form-control me-2"
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-        name="criteria"
-      />
-      <button class="btn btn-outline-secondary" type="submit">Search</button>
-    </form>
+<div class="update-database-container">
 
-    {% endif %}
-    <div style="height: 300px"></div>
+  {% if criteria %} 
+    {% if book_to_update %} 
+
+    <div class="book-info">
+      <h3>{{book_to_update.title}}</h3>
+      <h3>Author: {{book_to_update.author}}</h3>
+      <h5>Published: {{book_to_update.publish_date}}
+      <br/>
+    </div>
+    <div class="update-book-buttons-wrapper">
+      <div class="update-book-button">
+        <a href="{% url 'update_book' book_to_update.id %}"
+          ><button type="button" class="btn btn-outline-secondary">
+            Update Book
+          </button></a>
+      </div>
+    <br/>
+      <div class="update-book-button">
+        <a href="{% url 'delete_book' book_to_update.id %}"
+          ><button type="button" class="btn btn-outline-secondary">
+            Delete Book
+          </button></a>
+      </div>
+    <br/>
+      <div class="update-book-button">
+        <a href="javascript:history.go(-1)" class="btn btn-outline-secondary"
+          >Cancel</a>
+      </div>
+    </div>
+
+    {% else %}
+    <div class="upload-instructions">
+      <h6>
+      Please enter the Title, Author or ID of the book you are trying to update.
+      </h6>
+    </div>
+      <div class='upload-form'>
+        <form method="POST" action="#" class="d-flex" role="search">
+          {% csrf_token %}
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            name="criteria"
+          />
+          <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </form>
+      </div>
+      <div class="upload-instructions">
+        <h6>
+        Book Not Found
+        </h6>
+      </div>
+
+  {% endif %} 
+{% else %}
+<div class="upload-instructions">
+  <h6>
+  Please enter the Title, Author or ID of the book you are trying to update.
+  </h6>
+</div>
+<div class='upload-form'>
+<form method="POST" action="#" class="d-flex" role="search">
+  {% csrf_token %}
+  <input
+    class="form-control me-2"
+    type="search"
+    placeholder="Search"
+    aria-label="Search"
+    name="criteria"
+  />
+  <button class="btn btn-outline-secondary" type="submit">Search</button>
+</form>
+</div>
+
+{% endif %}
+
 
 {% else %}
 <h3>You Must be logged in as admin to view this page...</h3>
-{% endif %} 
+{% endif %}
 
 {% endblock content%}

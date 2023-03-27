@@ -13,31 +13,41 @@
 
 {% if user.is_authenticated %}
 
+<div>
+  <h4 class="main-titles">Update Book</h4>
+</div>
 {% if form.errors %}
-    <p>There was an Error With your regirstration. Details:</p>
+    <p>There was an Error With your form. Details:</p>
     {{form.errors}}
 {% endif %}
 
+<div class="update-database-container">
+  <div class="upload-instructions">
+  <h6>
+  Please make the required changes
+  </h6>
+  </div>
+  <div class = 'register-form'>
+    <form action= "" method="POST" class = 'auth-form'>
+        {% csrf_token %}
+        {% for fields in form  %}
+        <label class="form-label">{{ fields.label }}</label>
+        <div style="padding-bottom: 5px;">{{ fields }}</div>
 
-<div> Update Info.</div>
-
-<div class = 'register-form'>
-  <form action= "" method="POST" class = 'auth-form'>
-      {% csrf_token %}
-      {% for fields in form  %}
-      <label class="form-label">{{ fields.label }}</label>
-      <div style="padding-bottom: 5px;">{{ fields }}</div>
-
-      {% endfor %}
-    <div style = 'padding-top: 20px;'>
-      <input type="submit", value = "Update", class="btn btn-outline-secondary" style="width:100%"></input>
+        {% endfor %}
+      <div style = 'padding-top: 20px;'>
+        <input type="submit", value = "Update", class="btn btn-outline-secondary" style="width:100%"></input>
+      </div>
+    </form>
+    <div class="update-book-button">
+      <a href="javascript:history.go(-1)" class="btn btn-outline-secondary"
+        >Cancel</a>
     </div>
-  </form>
-  <div style="text-align: center; padding-top:5px;">
+    <div style="text-align: center; padding-top:5px;">
+    </div>
+  </div>
   </div>
 </div>
-</div>
-
 <div style='height: 300px;'></div>
 
 
@@ -47,3 +57,59 @@
 {% endif %}
   
 {% endblock content%}
+
+
+<div>
+  <h4 class="main-titles">Update Database</h4>
+</div>
+{% if user.is_authenticated %}
+<!-- UNUSED FUNCTION _ UPDATE VIA CSV -
+Up load csv file to repololate synopsis with this months new releases. Please ensure file types are correct. for more infor mation click 
+<a class="nav-link" href="#">here</a>
+<div class = 'upload-form'>
+  <form action= "#" method="POST" class = 'auth-form' enctype="multipart/form-data">
+      {% csrf_token %}
+      {% for fields in form  %}
+
+      <label class="form-label">{{ fields.label }}</label> 
+      <div style="padding-bottom: 5px;">{{ fields }}</div>
+
+      {% endfor %}
+    <div style = 'padding-top: 20px;'>
+      <input type="submit" class="btn btn-outline-secondary" style="width:100%"></input>
+    </div>
+  </form>
+  <div style="text-align: center; padding-top:5px;">
+    Please ensure the file is the correct format before uploading. 
+  </div>
+</div>
+</div>
+-->
+<div class="update-database-container">
+  <div class="upload-instructions">
+  <h6>
+  In order to update the database you must provide a User agent.<br>
+  You can obtain your User Agent by searching 'My User Agent' in your prefered browser.<br>
+  Copy and paste your user agent into the box below and submit to update the database.
+  </h6>
+  </div>
+
+
+  <div class='upload-form'>
+    <form method="POST" action="{% url 'upload' %}" class="d-flex">
+      {% csrf_token %}
+      <input
+        class="form-control me-2"
+        placeholder="User Agent"
+        aria-label="User Agent"
+        name="user_agent"
+        style="width:80%"
+      />
+      <button class="btn btn-outline-secondary" onclick="if(confirm('Are You sure? Proceeding will delete the existing database.')){}else{return false;};"type="submit">Update Database</button>
+    </form>
+  </div>
+</div>
+{% else %}
+  <h3> You must be Admin to view this page.</h3>
+{% endif %}
+<div style="height: 100px"></div>

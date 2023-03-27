@@ -13,6 +13,6 @@ urlpatterns = [
     path('remove_book/<book_id>', views.remove_book, name='remove_book'),
     path('search_book/', views.search_book, name='search_book'),
     path('update_book/<book_id>', views.update_book, name='update_book'),
-    path('delete_book/<int:id>', views.delete_book, name='delete_book'),
+    path('delete_book/<book_id>', views.delete_book, name='delete_book'),
 
 ]

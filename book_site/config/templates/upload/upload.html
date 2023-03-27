@@ -11,9 +11,11 @@
 
 
 {% block content %}
-
+<div>
+  <h4 class="main-titles">Update Database</h4>
+</div>
 {% if user.is_authenticated %}
-<!--
+<!-- UNUSED FUNCTION _ UPDATE VIA CSV -
 Up load csv file to repololate synopsis with this months new releases. Please ensure file types are correct. for more infor mation click 
 <a class="nav-link" href="#">here</a>
 <div class = 'upload-form'>
@@ -35,46 +37,37 @@ Up load csv file to repololate synopsis with this months new releases. Please en
 </div>
 </div>
 -->
-<div class = 'upload-form'>
-  <form method="POST" action="{% url 'upload' %}" class="d-flex">
-    {% csrf_token %}
-    <input
-      class="form-control me-2"
-      placeholder="User Agent"
-      aria-label="User Agent"
-      name="user_agent"
-      style="width:80%"
-    />
-    <button class="btn btn-outline-secondary" type="submit">Update Database</button>
-  </form>
-</div>
+<div class="update-database-container">
+  <div class="upload-instructions">
+  <h6>
+  In order to update the database you must provide a User agent.<br>
+  You can obtain your User Agent by searching 'My User Agent' in your prefered browser.<br>
+  Copy and paste your user agent into the box below and submit to update the database.
+  </h6>
+  </div>
 
+
+  <div class='upload-form'>
+    <form method="POST" action="{% url 'upload' %}" class="d-flex">
+      {% csrf_token %}
+      <input
+        class="form-control me-2"
+        placeholder="User Agent"
+        aria-label="User Agent"
+        name="user_agent"
+        style="width:80%"
+      />
+      <button class="btn btn-outline-secondary" onclick="if(confirm('Are You sure? Proceeding will delete the existing database.')){}else{return false;};"type="submit">Update Database</button>
+    </form>
+  </div>
+</div>
 {% else %}
   <h3> You must be Admin to view this page.</h3>
 {% endif %}
-<div style="height: 300px"></div>
+<div style="height: 100px"></div>
 {% endblock content%}
 
 
-<!--
-Up load csv file to repololate synopsis with this months new releases. Please ensure file types are correct. for more infor mation click 
-<a class="nav-link" href="#">here</a>
-<div class = 'upload-form'>
-  <form action= "#" method="POST" class = 'auth-form' enctype="multipart/form-data">
-      {% csrf_token %}
-      {% for fields in form  %}
 
-      <label class="form-label">{{ fields.label }}</label> 
-      <div style="padding-bottom: 5px;">{{ fields }}</div>
 
-      {% endfor %}
-    <div style = 'padding-top: 20px;'>
-      <input type="submit" class="btn btn-outline-secondary" style="width:100%"></input>
-    </div>
-  </form>
-  <div style="text-align: center; padding-top:5px;">
-    Please ensure the file is the correct format before uploading. 
-  </div>
-</div>
-</div>
--->
+

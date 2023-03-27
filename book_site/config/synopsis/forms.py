@@ -24,6 +24,8 @@ class BlankForm():
         model = Genre
         fields = ()
 
+# this form needs bulking out
+
 
 class UpdateBookForm(ModelForm):
     ''' Update book is an admin only function that allows admin to update 
@@ -43,11 +45,12 @@ class UpdateBookForm(ModelForm):
         label='Synopsis',
         widget=forms.Textarea(attrs={'class': 'form-control'})
     )
-    genre = forms.ModelChoiceField(queryset=Genre.objects.all(),
+    genre = forms.ModelChoiceField(queryset=Genre.objects.all(),  # needs to be multiple choise
                                    label='Genre',
                                    widget=forms.Select(
                                        attrs={'class': 'form-control'})
                                    )
+#  add links to form
 
     class Meta:
         model = Book
