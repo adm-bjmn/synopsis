@@ -228,3 +228,15 @@ li{
 .update-book-button{
     padding-right: 5px;
 }
+
+.update_book-form{
+    margin-top: 5%;
+    margin-bottom: 5%;
+
+}
+.cancel-button{
+    display: flex;
+    justify-content: right;
+    margin-right: 5%;
+
+}

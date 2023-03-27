@@ -14,20 +14,19 @@
 {% if user.is_authenticated %}
 
 <div>
-  <h4 class="main-titles">Update Book</h4>
+  <h4 class="main-titles" style="margin-bottom:1%;"=>Update Book</h4>
+  <div class="cancel-button">
+  <a href="javascript:history.go(-1)" class="btn btn-outline-secondary">Cancel</a>
+  </div>
 </div>
+<div style="text-align: center; padding-top:5px;"></div>
 {% if form.errors %}
     <p>There was an Error With your form. Details:</p>
     {{form.errors}}
 {% endif %}
 
 <div class="update-database-container">
-  <div class="upload-instructions">
-  <h6>
-  Please make the required changes
-  </h6>
-  </div>
-  <div class = 'register-form'>
+  <div class = 'update_book-form'>
     <form action= "" method="POST" class = 'auth-form'>
         {% csrf_token %}
         {% for fields in form  %}
@@ -39,11 +38,6 @@
         <input type="submit", value = "Update", class="btn btn-outline-secondary" style="width:100%"></input>
       </div>
     </form>
-    <div class="update-book-button">
-      <a href="javascript:history.go(-1)" class="btn btn-outline-secondary"
-        >Cancel</a>
-    </div>
-    <div style="text-align: center; padding-top:5px;">
     </div>
   </div>
   </div>
