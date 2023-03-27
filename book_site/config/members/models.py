@@ -6,6 +6,13 @@ from django.dispatch import receiver
 
 
 class Member(models.Model):
+    '''The member model is linked to the django user 
+    model via a decorator,
+    When a new user is created the new user is automatically 
+    associated to a new member object
+    the member object oprovides additional information to the standard 
+    User model without the neeed for extra model in admin.
+    '''
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     liked_books = models.ManyToManyField(Book, symmetrical=False, blank=True)
 
@@ -22,4 +29,4 @@ def create_new_member(sender, instance, created, **kwargs):
         member_profile.save()
 
 
-# post_save.connect(create_new_member, sender=User)
+# post_save.connect(create_new_member, sender=User)  # alternate save method
