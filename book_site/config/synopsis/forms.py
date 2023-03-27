@@ -4,6 +4,11 @@ from django.forms import ModelForm
 
 
 class GenreForm(forms.Form):
+    ''' The genre form is used on the dashboard view to present the user with 
+    the option to select any number of genres to be used as search criteria 
+    for the main synopsis functionality. The form is a multiple choice form
+    with check boxes.
+    '''
     genre_choices = []
     for i in Genre.objects.all():
         genre_choices.append((i.id, i.genre))
@@ -21,6 +26,11 @@ class BlankForm():
 
 
 class UpdateBookForm(ModelForm):
+    ''' Update book is an admin only function that allows admin to update 
+    information or broken links on a book object.
+    the from presented after a search function and displays the 
+    book object with its information in form fields ready to be changed.
+    '''
     title = forms.CharField(
         label='Title',
         widget=forms.TextInput(attrs={'class': 'form-control'})
@@ -42,16 +52,3 @@ class UpdateBookForm(ModelForm):
     class Meta:
         model = Book
         fields = ('title', 'author', 'synopsis', 'genre',)
-
-
-'''    title = models.CharField('Title', max_length=25)
-    author = models.CharField('Author', max_length=25)
-    publish_date = models.DateField('Date Publised',)
-    synopsis = models.TextField('Synopsis', max_length=2200)
-    genre = models.ForeignKey(
-        Genre, on_delete=models.SET_DEFAULT, default='Adventure')
-    purchase_link = models.URLField('Link to Purchase',)
-    liked_by = models.ManyToManyField(
-        User,  symmetrical=False, blank=True, related_name='liked_by')
-    seen_by = models.ManyToManyField(
-        User,  symmetrical=False, blank=True, related_name='seen_by')'''

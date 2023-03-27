@@ -5,6 +5,11 @@ from members.models import User
 
 
 class Genre(models.Model):
+    ''' The Genre model allows Genre objects to be created which can
+    then be associated to a book object via a many to many field.
+    Each book can have an number of genres 
+    associated to it. including None.
+    '''
     genre = models.CharField(
         'Genre', default='adventure', max_length=25, unique=True)
     ght = models.CharField(
@@ -15,6 +20,15 @@ class Genre(models.Model):
 
 
 class Book(models.Model):
+    ''' The book model provides the main object for the synopsis functionality
+    Aside from the Obvious critera for a book, the model also includes
+    a link to an image online and a link to a destination where 
+    the book can be purchased.
+    The many to many fields liked_by and seen_by are functionality fields.
+    A book that has been liked by a user will apear in thier my books page,
+    while a book that has been seen_by a user will not appear in future
+    searches unless seen_by is reset on the profile page.
+    '''
     title = models.CharField('Title', max_length=25)
     author = models.CharField('Author', max_length=25)
     publish_date = models.DateField('Date Publised',)

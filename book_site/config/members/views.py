@@ -8,6 +8,7 @@ from .models import User
 
 
 def login_user(request):
+    ''' Utilising built in django authentication'''
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -25,12 +26,18 @@ def login_user(request):
 
 
 def logout_user(request):
+    ''' Utilising built in django authentication'''
     logout(request)
     # messages.success(request, ('great cheers...'))
     return redirect('home')
 
 
 def register_user(request):
+    ''' Utilising built in django authentication,
+    Register user creates a django built in User object
+    as well as an associated members object
+    by using the built in django create user function. 
+    '''
     if request.method == 'POST':
         form = RegisterUserForm(request.POST)
         if form.is_valid():
@@ -48,11 +55,13 @@ def register_user(request):
 
 
 def user_profile(request, user_id):
+    ''' Simple view to show a user their profile information in profile.html'''
     user = get_object_or_404(User, id=user_id)
     return render(request, 'members/profile.html', {'user': user, })
 
 
 def update_profile(request, user_id):
+    ''' Utilising built in django authentication'''
     user = get_object_or_404(User, id=user_id)
     form = EditProfileForm(request.POST or None, instance=user)
     if form.is_valid():
@@ -63,6 +72,7 @@ def update_profile(request, user_id):
 
 
 def change_password(request, user_id):
+    ''' Utilising built in django authentication'''
     user = get_object_or_404(User, id=user_id)
     if request.method == 'POST':
         form = ChangeUserPassword(data=request.POST, user=user)
@@ -77,6 +87,7 @@ def change_password(request, user_id):
 
 
 def delete_user(request, user_id):
+    ''' Utilising built in django authentication'''
     user_to_delete = get_object_or_404(User, id=user_id)
     logout(request)
     user_to_delete.delete()

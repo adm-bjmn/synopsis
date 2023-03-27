@@ -9,10 +9,6 @@ import lxml
 from bs4 import BeautifulSoup
 from django.contrib import messages
 import pandas as pd
-from datetime import datetime
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
-from django.core.files import File
 from django.conf import settings
 
 # Create your views here.
@@ -20,6 +16,12 @@ from django.conf import settings
 
 # --- Unused function ---
 def backup_via_csv(request):
+    ''' backup by csv presents the user with the csv form in order 
+    to allow a manual uplad of data via CSV.
+    The file is saved to the csv model and the database can be updated
+    using the information within. This method has been removed in lieu
+     of the new automatic update_by_scrape function.
+    '''
     form = upload_form(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
@@ -58,12 +60,21 @@ def backup_via_csv(request):
     return render(request, 'upload/upload.html', {'form': form, })
 # --- ---
 
-# approx 25 minutes
 
-
-def upload_by_scrape(request):
+def upload_by_scrape(request):  # approx 25 minutes
+    ''' Upload by scrape employs a webscraping algorithm that scrapes 
+    the popular bok sellers website www.waterstones.com
+    The function visits the landing page of 600 new releases and gather 
+    the information needed for the Books model in the synopsis app. 
+    The data base is updated automatically as part of this function 
+    and a CSV file is generated in order to allow for future download
+    of all book information for data analysis etc.
+    '''
     if request.method == "POST":
+        # a user agent must be supplied by the user.
         user_agent = request.POST['user_agent']
+        # all books are deleted prior to populating the
+        # database with new information.
         Book.objects.all().delete()
         # print(user_agent)
         # ============== LISTS ==============
@@ -73,11 +84,12 @@ def upload_by_scrape(request):
         all_genres = []
 
         # ============== WEBSCRAPING FOR URLS ==============
-        # User agent must be supplied on page.
         headers = {
             'User-Agent': user_agent}
 
         for page_number in range(0, 26):
+            ''' scraper visits the new realases page and gathers urls for 600 new books.
+            '''
             url = f'https://www.waterstones.com/campaign/new-books/sort/pub-date-desc/page/{page_number}'
             page = requests.get(url, headers=headers)
             print(page.status_code)
@@ -97,6 +109,15 @@ def upload_by_scrape(request):
 
         # ============== WEBSCRAPING FOR BOOK INFO ==============
         for link in links_list:
+            ''' for all the links in the previously populated links list the 
+            scraper will visit the link to the books info page on 
+            waterstones.com, strip the relevant information and create 
+            a book info list. The list is then used to create a new book
+            object by indexing the information from the book list. 
+            in some cases the informatiuon must be cleaned before the 
+            book object can be created in order to ensure that the information
+            in the fields is uniform accross all book objects.
+            '''
             url = link
             # url = links_list[14]
             page = requests.get(url, headers=headers)
@@ -188,6 +209,12 @@ def upload_by_scrape(request):
 
 
 def generate_csv(book_list):
+    ''' Generate CSV creates a csv file with all information from 
+    the webscraper that has been used to create book objects. 
+    The CSV file excludes the member related fields such as 
+    liked_by and sen_by as theses are deemed irrelevant for 
+    the purpose of this function.
+    '''
     columns = ['title', 'author', 'publish_date',
                'synopsis', 'genre', 'purchase_link', 'img_link']
     date = datetime.now().date()
@@ -198,4 +225,4 @@ def generate_csv(book_list):
     # add to csv models
     csv_file.objects.create(
         file_name=f'{date}.csv', file_processed=True)
-    return None
+    return None  # nothing to return.

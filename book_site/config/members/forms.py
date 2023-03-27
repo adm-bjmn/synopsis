@@ -4,6 +4,11 @@ from django import forms
 
 
 class RegisterUserForm(UserCreationForm):
+    ''' Registration form inherets from the Django user creation form
+    Each form field utilises django widgets to give 
+    it a from class of control from -
+    Control form is a bootstrap from class.
+    '''
     username = forms.CharField(
         label='Username',
         widget=forms.TextInput(attrs={'class': 'form-control'})
@@ -36,6 +41,12 @@ class RegisterUserForm(UserCreationForm):
 
 
 class EditProfileForm(UserChangeForm):
+    ''' Edit profile form inheretes from django forms UserChangeForm
+    Each form field utilises django widgets to give 
+    it a from class of control from -
+    Control form is a bootstrap from class.
+    '''
+
     username = forms.CharField(
         label='Username',
         widget=forms.TextInput(attrs={'class': 'form-control'})
@@ -64,6 +75,11 @@ class EditProfileForm(UserChangeForm):
 
 
 class ChangeUserPassword(PasswordChangeForm):
+    ''' Change password inherets from django password change form.
+    Each form field utilises django widgets to give 
+    it a from class of control from -
+    Control form is a bootstrap from class.
+    '''
     old_password = forms.CharField(
         label='Old Password',
         widget=forms.PasswordInput(attrs={'class': 'form-control'})

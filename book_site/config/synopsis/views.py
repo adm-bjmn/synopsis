@@ -15,6 +15,8 @@ def home(request):
 
 
 def dashboard(request):
+    ''' Displays all genres to the logged in user and request a selection
+    which will be used as the search criteria for the synopsis function'''
     genre_list = Genre.objects.all().order_by('genre')
     if request.method == 'POST':
         form = GenreForm(request.POST)
@@ -22,9 +24,12 @@ def dashboard(request):
             selected_genres = form.cleaned_data.get('selected_genres')
             print(f'form_selected: {type(selected_genres)}')
             selected_genres = '-'.join(selected_genres)
-
-        return redirect(synopsis, selected_genres)
-        # return redirect('dashboard')
+            return redirect(synopsis, selected_genres)
+        else:
+            # return the form with error messeages
+            form = GenreForm(request.POST)
+            return render(request, 'synopsis/dashboard.html',
+                          {'form': form, 'genre_list': genre_list})
     else:
         form = GenreForm()
         return render(request, 'synopsis/dashboard.html',
@@ -32,6 +37,17 @@ def dashboard(request):
 
 
 def synopsis(request, selected_genres):
+    '''Uses the reponse to the dashboard form as search criteria to search
+    for relevant book objects.
+    synopsis then shows the user the synopsis of each book one at a time,
+    with options to go to next, add to my books or view more details,
+    Once the user has seen a book then the seen_by field is checked to 
+    ensure the book does not re appear in future searches.
+    If a book opject is liked_by the the looged in user it will also be 
+    excluded rom the search resuts.
+    Once the user has seen all books in a search they are shown a message
+    acknowledging this and given the option to return to the dashboard.
+    '''
     selected_genres = selected_genres.split('-')
     print(f'selected genres: {selected_genres}')
     print(f'selected type: {type(selected_genres)}')
@@ -56,18 +72,27 @@ def synopsis(request, selected_genres):
 
 
 def book_info(request, book_id):
+    ''' if the user clicks the synopsis of a book in the paginated synopsis 
+    app they will be taken to a page showing more information about the
+    book from the book object.
+    The user is also given the option to add the book to their mybooks 
+    list or remove it depending on the current status oif the book
+    '''
     selected_genres = request.session.get('selected_genres')
     book = Book.objects.get(pk=book_id)
     liked = False
     if book.liked_by.filter(id=request.user.id).exists():
         liked = True
-    # get book genres and output them to the contexts dictionary.
-    # try to figure out how to get a back button.
-    # show the books infor using the primary key from the genres page.
     return render(request, 'synopsis/book_info.html', {'book': book, 'liked': liked, 'selected_genres': selected_genres})
 
 
 def like_view(request, id):
+    '''liked view is a templateless function that provids 
+    the liked_by functionality.
+    when the like button is clicked the function is called 
+    and the appropriate chenges are made to the member model,
+    the page is then reversed back to the book info page
+    '''
     book_id = str(id)
     book = get_object_or_404(Book, id=request.POST.get('book.id'))
     member = request.user.member
@@ -84,6 +109,10 @@ def like_view(request, id):
 
 
 def my_books(request):
+    ''' My books searchs the book model for anybooks where the 
+    logged in user liked_by field is set to true,
+    the results are then shown to the user with various options.
+    '''
     if request.user.is_authenticated:
         my_books = Book.objects.filter(
             liked_by=request.user.id)
@@ -95,6 +124,9 @@ def my_books(request):
 
 
 def search_book(request):
+    '''This is an admin only function that allows the logged in user
+    to search for a book which can bew subsiquently deleted or updated.
+    '''
     if request.method == "POST":
         criteria = request.POST['criteria']
         book_to_update = Book.objects.filter(
@@ -108,6 +140,9 @@ def search_book(request):
 
 
 def update_book(request, book_id):
+    '''an admin only function in response to a search the user 
+    can update any information aboout a book using the update form.
+    '''
     book = get_object_or_404(Book, id=book_id)
     form = UpdateBookForm(request.POST or None, instance=book)
     if form.is_valid():
@@ -121,6 +156,9 @@ def update_book(request, book_id):
 
 
 def delete_book(request, book_id):
+    '''an admin only function in response to a search the user 
+    can delete any a book.
+    '''
     book_to_delete = get_object_or_404(Book, id=book_id)
     delete_title = book_to_delete.title
     book_to_delete.delete()
@@ -129,8 +167,11 @@ def delete_book(request, book_id):
     return redirect('search_book')
 
 
-# remove like if the user clicks the button remove the like from the book object and reload the page.
 def remove_book(request, book_id):
+    ''' remove like if the user clicks the button remove the like from th
+    book object and reload the page.
+    Works in the same way as the like funtion on the like view 
+    however only give the option to remove from the list '''
     book = get_object_or_404(Book, id=request.POST.get('book.id'))
     book.liked_by.remove(request.user.id)
     return redirect('my_books')
