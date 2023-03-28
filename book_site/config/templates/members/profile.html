@@ -1,40 +1,59 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  {% if user.is_authenticated %}
-   - {{user.username}}
-  {%else%}
-   - Please Login
-  {% endif %}
+{% if user.is_authenticated %}
+- {{user.username}}
+{%else%}
+- Please Login
+{% endif %}
 {% endblock title %}
 
 
 {% block content %}
-
-{% if user.is_authenticated %}
-<section class = 'home-section'>
-
-    {{user.username}}<br>
-    {{user.email}}<br>
-    {{user.last_name}}<br>
-
-
 <div>
-<a href= "{% url 'update_profile' user.id %}"><button type="button" class="btn btn-outline-secondary">Update info</button></a>
+  <h4 class="main-titles" style="margin-bottom:1%;">Account Info</h4>
 </div>
-<div>
-  <a href= "{% url 'change_password' user.id %}"><button type="button" class="btn btn-outline-secondary">Change Password</button></a>
-  </div>
-  {% if request.user.is_staff == False %}
-  <div>
-    <a href= "{% url 'delete_user' user.id %}"><button type="button" onclick="if(confirm('Are You sure? This cannot be undone.')){}else{return false;};" id="deletebutton" class="btn btn-outline-secondary">Delete Profile</button></a>
+{% if user.is_authenticated %}
+<div class="update-database-container">
+  <div class="user-info-wrapper">
+    <div class="user-info-labels">
+      <h6>Username: </h6><br>
+      <h6>First Name:</h6><br>
+      <h6>Last Name: </h6><br>
+      <h6>Email address: </h6><br>
+      <h6>Date Joined:</h6><br>
     </div>
+    <div class="user-info">
+      <h6>{{user.username}}</h6><br>
+      <h6>{{user.first_name}}</h6><br>
+      <h6>{{user.last_name}}</h6><br>
+      <h6>{{user.email}}</h6><br>
+      <h6>{{user.date_joined}}</h6><br>
+    </div>
+  </div>
+  <div class="update-book-buttons-wrapper">
+    <div class="update-book-button">
+      <a href="{% url 'update_profile' user.id %}"><button type="button" class="btn btn-outline-secondary">Update
+          info</button></a>
+    </div>
+    <div class="update-book-button">
+      <a href="{% url 'change_password' user.id %}"><button type="button" class="btn btn-outline-secondary">Change
+          Password</button></a>
+    </div>
+    {% if request.user.is_staff == False %}
+    <div class="update-book-button">
+      <a href="{% url 'delete_user' user.id %}"><button type="button"
+          onclick="if(confirm('Are You sure? This cannot be undone.')){}else{return false;};" id="deletebutton"
+          class="btn btn-outline-secondary">Delete Profile</button></a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+</div>
 
-    
-  {% endif %}
 
 {% else %}
-  <h3> Please Login to view this page...</h3>
+<h3> Please Login to view this page...</h3>
 {% endif %}
 
 {% endblock content%}s

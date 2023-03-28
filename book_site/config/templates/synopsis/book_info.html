@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  {% if user.is_authenticated %}
-   - {{Book.title}}
-  {%else%}
-    Please Login
-  {% endif %}
+{% if user.is_authenticated %}
+- {{Book.title}}
+{%else%}
+Please Login
+{% endif %}
 {% endblock title %}
 
 
@@ -13,30 +13,80 @@
 <!-- This function is only available to logged in users. -->
 
 {% if user.is_authenticated %}
-<section class = 'home-section'>
-{{book.id}}
-{{book.title}}<br>
-{{book.author}}<br>
-{{book.publish_date}}<br>
-{{book.synopsis}}<br>
-{{book.genre.all}}
+<section class='home-section'>
 
-<div class = 'like-book'>
-  <form action= "{% url 'like_book' book.id  %}" method="POST" class = 'auth-form'>
-    {% csrf_token %}
-  <div class = 'genre-button-wrapper'>
-    <!-- if liked by user == True-->
-    {% if liked == True %}
-      <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove from My Books</button></h4>
-    {% else %}
-      <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"> Add To My Books</button></h4>
-    {% endif %}
+  <div class="my-books-book-wrapper">
+    <div class='my-books-info-outer'>
+      <div class="book-info-text">
+        <div class="book-info-text">
+          <h4>{{book.title}}</h4>
+        </div>
+        <div class="book-info-text">
+          <h4>{{book.author}}</h4>
+        </div>
+        <div class="book-info-text">
+          <h5>{{book.synopsis}}...</h5>
+        </div>
+        <div class="book-info-text">
+          <h6>{{book.publish_date}}</h6>
+        </div>
+      </div>
+      <div class="book-image-wrapper">
+        <div class="book-image">
+          <img itemprop="image" id="scope_book_image" class="js-open-modal" data-modal-id="zoomModal"
+            src="{{book.img_link}}" data-zoom-src="{{book.img_link}}" alt="{{book.title}}" onerror="imgError(this)"
+            width="200" style="border-radius:15px;">
+        </div>
+      </div>
+    </div>
+    <div class="button-array">
+      {% if request.META.HTTP_REFERER != 'http://127.0.0.1:8000/my_books' %}
+        <div class='like-book'>
+          <form action="{% url 'like_book' book.id  %}" method="POST" class='auth-form'>
+            {% csrf_token %}
+            <div class='genre-button-wrapper'>
+              <!-- if liked by user == True-->
+              {% if liked == True %}
+              <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove from My
+                  Books</button></h4>
+              {% else %}
+              <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"> Add To My Books</button>
+              </h4>
+              {% endif %}
+            </div>
+          </form>
+        </div>
+        {% if selected_genres %}
+          <h4><a class='genre-button' href="{% url 'synopsis' selected_genres %}">Back to Synopsis</a></h4>
+        {% endif %}
+      {% else %}
+      <div>
+        <h4><a class='genre-button' href="{% url 'my_books' %}">Back to My Books</a></h4>
+      </div>
+      <div class='like-book'>
+        <form action="{% url 'remove_book' book.id %}" method="POST" class='auth-form'>
+          {% csrf_token %}
+          <div>
+            <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"
+                onclick="if(confirm('Are You sure?')){}else{return false;};">Remove</button></h4>
+          </div>
+        </form>
+      </div>
+      <div>
+        <h4><a href="{{book.purchase_link}}" class='genre-button'> Purchase</a></h4>
+      </div>
+    </div>
+
+      <!--
+      <a href="{% url 'remove_book' book.id %}"><button type="button" class="btn btn-outline-secondary"onclick="if(confirm('Are You sure?')){}else{return false;};">
+                    Remove from my books</button></a>-->
+      {% endif %}
+    </div>
   </div>
-</div>
-<h4><a class='genre-button'href="{% url 'synopsis' selected_genres %}">Synopsis</a></h4>
-<h4><a class='genre-button'href="{% url 'my_books' %}">My Books</a></h4>
 
-<!-- these both go back. 
+
+
+  <!-- these both go back. 
 <div>
   <a href="{{request.META.HTTP_REFERER|escape}}">Back</a>
   <a href="javascript:history.go(-1)" class="btn btn-default">Cancel</a>
@@ -44,8 +94,8 @@
 -->
 
 
-{% else %}
+  {% else %}
   <h3> Please Login to view this page...</h3>
-{% endif %}
-  
-{% endblock content%}
+  {% endif %}
+
+  {% endblock content%}

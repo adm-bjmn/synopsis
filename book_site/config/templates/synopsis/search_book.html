@@ -26,6 +26,9 @@
       <h3>Author: {{book_to_update.author}}</h3>
       <h5>Published: {{book_to_update.publish_date}}
       <br/>
+      {% for genre in book_to_update.genre.all %}
+        {{ genre.name }}
+      {% endfor %}
     </div>
     <div class="update-book-buttons-wrapper">
       <div class="update-book-button">

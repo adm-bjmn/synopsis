@@ -1,40 +1,67 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  {% if user.is_authenticated %}
-    - My Books
-  {%else%}
-    - Please Login
-  {% endif %}
+{% if user.is_authenticated %}
+- My Books
+{%else%}
+- Please Login
+{% endif %}
 {% endblock title %}
 
 
 {% block content %}
-
+<div class="main-titles">
+  <h4>My Books</h4>
+</div>
 {% if user.is_authenticated %}
 <!-- must be logged in-->
-  {% if my_books %}
-    <section class = 'home-section'>
-      {% for book in my_books %}
-      <a href = "{% url 'book_info' book.id %}" class = 'synopsis'>
-        {{book.title}}
-        {{book.author}}</a>
-        <div class = 'like-book'>
-          <form action= "{% url 'remove_book' book.id %}" method="POST" class = 'auth-form'>
-            {% csrf_token %}
-        <div class = 'genre-button-wrapper'>
-            <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove</button></h4>
+{% if my_books %}
+<section class='home-section'>
+  {% for book in my_books %}
+  <div class="my-books-book-wrapper">
+    <div class='my-books-info-outer'>
+      <div class="book-info-text">
+        <div class="book-info-text">
+          <h4>{{book.title}}</h4>
         </div>
-        </form>
+        <div class="book-info-text">
+          <h4>{{book.author}}</h4>
+        </div>
+        <div class="book-info-text">
+          <h5>{{book.synopsis|slice:":250"}}...</h5>
+        </div>
+      </div>
+      <div class="book-image-wrapper">
+        <div class="book-image">
+          <img itemprop="image" id="scope_book_image" class="js-open-modal" data-modal-id="zoomModal"
+            src="{{book.img_link}}" data-zoom-src="{{book.img_link}}" alt="{{book.title}}" onerror="imgError(this)"
+            width="200" style="border-radius:15px;">
+        </div>
+      </div>
+    </div>
+    <div class='like-book'>
+      <form action="{% url 'remove_book' book.id %}" method="POST" class='auth-form'>
+        {% csrf_token %}
+        <div class='button-array'>
+          <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"
+              onclick="if(confirm('Are You sure?')){}else{return false;};">Remove</button></h4>
+          <h4><a href="{% url 'book_info' book.id %}" class='genre-button'> More Info</a></h4>
+        </div>
+      </form>
+    </div>
+  </div>
 
-      <br/>
-      {% endfor%}
+
+
+  <br />
+  {% endfor%}
   {% else %}
-    <h1>You hevnet liked any books yet, click 
-      <a href = "{% url 'dashboard' %}" class = 'synopsis'>here </a> to start...</h1>
+  <h3>You hevnet liked any books yet, click
+    <a href="{% url 'dashboard' %}" class='synopsis' style='color:grey;'>here </a> to start...
+  </h3>
   {% endif %}
-{% else %}
+  {% else %}
   <h3> Please Login to view this page...</h3>
-{% endif %}
-  
-{% endblock content%}
+  {% endif %}
+
+  {% endblock content%}

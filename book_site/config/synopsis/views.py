@@ -17,7 +17,7 @@ def home(request):
 def dashboard(request):
     ''' Displays all genres to the logged in user and request a selection
     which will be used as the search criteria for the synopsis function'''
-    genre_list = Genre.objects.all().order_by('genre')
+    genre_list = Genre.objects.all()
     if request.method == 'POST':
         form = GenreForm(request.POST)
         if form.is_valid():
@@ -87,6 +87,10 @@ def book_info(request, book_id):
 
 
 def like_view(request, id):
+    referer = request.META.get('HTTP_REFERER')
+    referer = referer.split('/')
+    print(f"refere: {referer}")
+    selected_genres = request.session.get('selected_genres')
     '''liked view is a templateless function that provids 
     the liked_by functionality.
     when the like button is clicked the function is called 
@@ -105,7 +109,10 @@ def like_view(request, id):
         member.liked_books.add(book.id)
         book.liked_by.add(request.user.id)
         liked = True
-    return HttpResponseRedirect(reverse('book_info', kwargs={'book_id': book_id}))
+    if referer[-2] == "synopsis":
+        return redirect(synopsis, selected_genres)
+    else:
+        return HttpResponseRedirect(reverse('book_info', kwargs={'book_id': book_id}))
 
 
 def my_books(request):
@@ -172,6 +179,9 @@ def remove_book(request, book_id):
     book object and reload the page.
     Works in the same way as the like funtion on the like view 
     however only give the option to remove from the list '''
-    book = get_object_or_404(Book, id=request.POST.get('book.id'))
+    book = get_object_or_404(Book, id=book_id)
+    member = request.user.member
+    member.liked_books.remove(book.id)
     book.liked_by.remove(request.user.id)
-    return redirect('my_books')
+    liked = False
+    return HttpResponseRedirect(reverse('my_books'))

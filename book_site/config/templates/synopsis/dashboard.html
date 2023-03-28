@@ -24,20 +24,18 @@
   show all genres as buttons for the user to select-->
 
  
-  <div class = 'genre-select'>
+  <div class = 'form-check'>
     <form action= "" method="POST" class = 'auth-form'>
       {% csrf_token %}
-      {{ form.as_p }}
+        {% for choices in form.selected_genres %}
+            <label type="checkbox" class="btn btn-outline-secondary">
+            {{ choices.tag }} {{ choices.choice_label }}
+            </label>
+        {% endfor %}
+        </div>
       <div style = 'padding-top: 20px;'>
         <input type="submit", value = "Let's Go", class="btn btn-outline-secondary" style="width:100%"></input>
       </div>
-
-      <!-- Use this code to style the MC options -->
-    {% for genre in genre_list %}
-    <div class = 'genre-button-wrapper'>
-    <h4><input class='genre-button' type="submit" name="{{genre.id}}" value="{{genre}}"></input></h4>
-    </div>
-    {% endfor %}
   </div>
 </section>
 
@@ -50,3 +48,7 @@
 
 
 <a href= "{% url 'synopsis' genre.id %}"><button type="button" class="btn btn-outline-secondary">{{back}}</button></a>
+
+
+<input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off">
+<label class="btn btn-outline-primary" for="btn-check-outlined">{{ checkbox.choice_label }}</label>

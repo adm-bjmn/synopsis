@@ -1,81 +1,114 @@
-:root{
+:root {
     /* light mode */
-        --main_text_color: white;
-        --sub_text_color: #581f2f;
-        --main_font:'Playfair Display', serif;
-        --sub_font: 'Playfair Display', serif;
-    
-        --border_color: #333333;
-    
-        --main_color: #fffeef;
-        --alternate_color: #f6f5e5;
-        --theme_boarder: black;
-        --dark_button : #333333;
-        --dmfont: 'Creepster', cursive;
-    
-    }
-    
+    --main_text_color: white;
+    --sub_text_color: #581f2f;
+    --main_font: 'Playfair Display', serif;
+    --sub_font: 'Playfair Display', serif;
+
+    --border_color: #333333;
+
+    --main_color: #fffeef;
+    --alternate_color: #f6f5e5;
+    --theme_boarder: black;
+    --dark_button: #333333;
+    --dmfont: 'Creepster', cursive;
+
+}
+
 /* ============
 HTML standard tags 
    ============ */
-html, body{
+html,
+body {
     padding: 0;
     margin: 0;
     justify-content: center;
     background-color: black;
 }
 
-h1{font-size: 377px;}
-h2{font-size: 233px;}
-h3{font-size: 144px;}
-h4{font-size: 89px;}
-h5{font-size: 55px;}
-h6{font-size: 34px;}
-h1,h2,h3,h4,h5,h6, strong{
+h1 {
+    font-size: 377px;
+}
+
+h2 {
+    font-size: 233px;
+}
+
+h3 {
+    font-size: 144px;
+}
+
+h4 {
+    font-size: 89px;
+}
+
+h5 {
+    font-size: 55px;
+}
+
+h6 {
+    font-size: 34px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong {
     font-family: var(--main_font);
     color: var(--main_text_color);
     font-weight: 500;
 }
 
-p,li,span,label,textarea{
+p,
+li,
+span,
+label,
+textarea {
     color: var(--sub_text_color);
     font-family: var(--main_font);
     font-size: 18px;
 }
 
-a{
+a {
     text-decoration: none;
     color: var(--sub_text_color);
     font: var(--main_font);
 
 }
 
-ul{list-style: none;}
-li{
+ul {
+    list-style: none;
+}
+
+li {
     margin: 5px 0;
 }
 
-.main-container{
+.main-container {
     width: 95%;
     margin: 0 auto;
 }
 
-.top-container{
+.top-container {
     width: 95%;
     margin: 0 auto;
 }
 
-.main-titles{
+.main-titles {
     display: flex;
     justify-content: right;
-    margin-bottom: 5%;
-    margin-right: 5%;
+    margin-bottom: 2%;
+    margin-right: 2%;
 
 }
+
 /* ===========
     BASE.HTML 
    ===========  */
-.header{
+.header {
     padding-top: 1%;
     display: flex;
     flex-direction: row;
@@ -85,42 +118,50 @@ li{
     margin: 0 auto;
 }
 
-.btn-outline-secondary:hover, .btn-outline-secondary:focus, .btn-outline-secondary:active, .btn-outline-secondary.active, .open>.dropdown-toggle.btn-outline-secondary {
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus,
+.btn-outline-secondary:active,
+.btn-outline-secondary.active,
+.open>.dropdown-toggle.btn-outline-secondary {
     color: #fff;
     background-color: black;
     border-color: #285e8e;
 }
-.btn{
+
+.btn {
     color: white;
 }
 
-.copywrite{
+.copywrite {
     margin-left: 2%;
     color: whitesmoke;
     font-size: x-small;
 }
 
-.messages{
+.messages {
     display: flex;
     justify-content: right;
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
 /* =============
       NAVBAR
    ============= */
-.nav-wrapper{
+.nav-wrapper {
     padding-bottom: 20px;
 }
-.nav-link{
+
+.nav-link {
     color: white;
 }
-.nav-item :hover{
+
+.nav-item :hover {
     color: #285e8e;
 }
 
 
-.home-section{
+.home-section {
     width: 80%;
     margin: 0 auto;
 }
@@ -129,7 +170,7 @@ li{
 /* =============
       HOME.HTML
    ============= */
-.site-intro-wrapper{
+.site-intro-wrapper {
     padding-bottom: 50px;
 }
 
@@ -138,13 +179,14 @@ li{
       LOGIN.HTML / REGISTER.HTML
    ============================== */
 
-.auth-container{
+.auth-container {
     display: flex;
     flex-direction: column;
     padding-top: 30px;
 
 }
-.auth-form-wrapper{
+
+.auth-form-wrapper {
     width: 30%;
     padding-bottom: 10px;
     padding-top: 20px;
@@ -153,24 +195,27 @@ li{
     justify-content: center;
 }
 
-.auth-form{
+.auth-form {
     width: 95%;
     margin: 0 auto;
 }
 
-.form-text{
+.form-text {
     color: #333333;
     font: var(--main_font);
 }
-.form-label{
+
+.form-label {
     color: white;
     font: var(--main_font);
 }
-.register-form{
+
+.register-form {
     padding-left: 10%;
     width: 40%;
 }
-.register-form label{
+
+.register-form label {
     color: white;
     font: var(--main_font);
 }
@@ -179,14 +224,16 @@ li{
 /* ==============
      Dashboard
    ============== */
-.genre-select{
+.genre-select {
     padding-bottom: 100px;
 }
-.genre-button-wrapper{
+
+.genre-button-wrapper {
     padding-left: 50px;
     padding-top: 20px;
 }
-.genre-button{
+
+.genre-button {
     color: white;
     font-family: var(--main_font);
     background-color: black;
@@ -194,49 +241,153 @@ li{
 
 }
 
-.synopsis{
+.synopsis {
     color: white;
 }
 
 
-.update-database-container{
+.update-database-container {
     width: auto;
     margin: 2%;
     border: 1px solid white;
     border-radius: 20px;
 }
 
-.upload-form{
-    margin:  5%;
-}
-.upload-instructions{
+.upload-form {
     margin: 5%;
 }
 
-.book-info{
+.upload-instructions {
+    margin: 5%;
+}
+
+.book-info {
     margin: 5%;
 
 }
 
-.update-book-buttons-wrapper{
+.update-book-buttons-wrapper {
     margin: 5%;
     display: flex;
     flex-direction: inline;
+    justify-content: left;
 
 }
 
-.update-book-button{
+.update-book-button {
     padding-right: 5px;
 }
 
-.update_book-form{
+.update_book-form {
     margin-top: 5%;
     margin-bottom: 5%;
 
 }
-.cancel-button{
+
+.cancel-button {
     display: flex;
     justify-content: right;
+    margin-right: 5%;
+
+}
+
+
+
+/* ==============
+     Profile
+   ============== */
+.user-info-wrapper {
+    width: 100%;
+}
+
+
+.user-info {
+    margin-left: 5%;
+}
+
+.user-info-wrapper {
+    margin: 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+
+}
+
+/* ==============
+     MYBOOKS / BOOK INFO
+   ============== */
+
+.my-books-book-wrapper {
+    width: auto;
+    margin: 2%;
+    border: 1px solid white;
+    border-radius: 20px;
+}
+
+.my-books-info-outer {
+    display: flex;
+    flex-direction: row;
+}
+
+.book-info-text {
+    margin: 2%;
+    width: auto;
+
+}
+
+#title {
+    font-size: large;
+    font-family: var(--main_font);
+    color: var(--main_text_color);
+    font-weight: 500;
+
+}
+
+#author {
+    font-size: medium;
+    font-family: var(--main_font);
+    color: var(--main_text_color);
+    font-weight: 500;
+}
+
+#synopsis {
+    font-size: small;
+    font-family: var(--main_font);
+    color: var(--main_text_color);
+    font-weight: 500;
+}
+
+#purchase-link {
+    font-size: small;
+    font-family: var(--main_font);
+    color: var(--main_text_color);
+    font-weight: 500;
+}
+
+.book-image-wrapper {
+    margin: 2%;
+}
+
+.book-image {
+    display: flex;
+    justify-content: center;
+    border-radius: 15px;
+    border: 1px solid white;
+}
+
+.book-info-buttons {
+    margin: 5%;
+    display: flex;
+    flex-direction: inline;
+    justify-content: left;
+}
+
+
+
+.button-array {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 5%;
     margin-right: 5%;
 
 }

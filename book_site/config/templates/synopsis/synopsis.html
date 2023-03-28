@@ -10,41 +10,51 @@
 
 
 {% block content %}
-
+<div>
+  <h4 class="main-titles" style="margin-bottom:1%;">Synopsis</h4>
+</div>
 {% if user.is_authenticated %}
 <section class = 'home-section'>
-  <div> 
-    Swipe
-  </div>
-    <!-- Genres
-  show all genres as buttons for the user to select-->
-  <div>
-    {% for book in pages %}
-      <div>
-        <a href = "{% url 'book_info' book.id %}" class = 'synopsis'>{{book.synopsis}}</a>
-      </div>
-
-      <!--//// TESTING PAGINATION ////
-      {{ pages }}<br/>
-      Has Next : {{pages.has_next}}<br/>
-      Has Prev : {{pages.has_previous}}<br/>
-      Current : {{pages.number}}<br/>
-      Total : {{pages.paginator.num_pages}}<br/>
-      //// -->
-
-
+  {% for book in pages %}
+    <div class="my-books-book-wrapper">
+          <div class="book-info-text">
+            <h5>{{book.synopsis}}...</h5>
+          </div>
       {% if pages.has_next %}
-          <a type="submit" href="?page={{ pages.next_page_number }}" name="button" value="button">next</a><br/> 
+      <div class="button-array">
+        <div>
+          <form action="{% url 'like_book' book.id  %}" method="POST" class='synopsis-form'>
+            {% csrf_token %}
+            <div>
+              <!-- if liked by user == True-->
+              {% if liked == True %}
+              <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove from My
+                  Books</button></h4>
+              {% else %}
+              <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"> Add To My Books</button>
+              </h4>
+              {% endif %}
+            </div>
+          </form>
+        </div>
+        <div class='next-button'>
+          <h4><a class='genre-button' type="submit" href="?page={{ pages.next_page_number }}">Next</a></h4>
+        </div>
       {% endif%}
-      {% if pages.has_next is False %}
-      Thats it for {{genre_name }} this month. 
-      <a href = "{% url 'dashboard' %}" class = 'synopsis'>back to genres.</a>
-      {% endif %}
-    {% endfor %}
-   
-  </div>
-
-  
+        {% if pages.has_next is False %}
+        There are no books left in your search, You can reset seen books in account infromation.
+        <a href = "{% url 'dashboard' %}" class = 'synopsis'>Back to genres select.</a>
+        {% endif %}
+      </div>
+    </div>
+    <!--//// TESTING PAGINATION ////
+    {{ pages }}<br/>
+    Has Next : {{pages.has_next}}<br/>
+    Has Prev : {{pages.has_previous}}<br/>
+    Current : {{pages.number}}<br/>
+    Total : {{pages.paginator.num_pages}}<br/>
+    //// -->
+  {% endfor %}
 </section>
 
 {% else %}
@@ -52,5 +62,6 @@
 {% endif %}
   
 {% endblock content%}
+
 
 
