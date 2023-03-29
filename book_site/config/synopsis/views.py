@@ -45,14 +45,22 @@ def dashboard(request):
     '''
     genre_list = Genre.objects.all()
     if request.method == 'POST':
-        selected_genres = request.POST.getlist('selected_items')
-        print(f'selected Genres: {selected_genres}')
-        selected_genres = '-'.join(selected_genres)
-        return redirect(synopsis, selected_genres)
-
+        if len(request.POST.getlist('selected_items')) > 0:
+            selected_genres = request.POST.getlist('selected_items')
+            print(f'selected Genres: {selected_genres}')
+            selected_genres = '-'.join(selected_genres)
+            instructions = 'instructions'
+            messages.success(request, (
+                instructions))
+            return redirect(synopsis, selected_genres)
+        else:
+            error = 'error'
+            messages.success(request, (
+                "You must choose at least one Genre..."))
+            return redirect('dashboard')
     else:
         return render(request, 'synopsis/dashboard.html',
-                      {'genre_list': genre_list})
+                      {'genre_list': genre_list, })
 
 
 def synopsis(request, selected_genres):
@@ -68,22 +76,24 @@ def synopsis(request, selected_genres):
     acknowledging this and given the option to return to the dashboard.
     '''
     selected_genres = selected_genres.split('-')
-    print(f'selected genres: {selected_genres}')
-    print(f'selected type: {type(selected_genres)}')
+    # print(f'selected genres: {selected_genres}')
+    # print(f'selected type: {type(selected_genres)}')
     display_books = (Book.objects.all().filter(
         genre__in=selected_genres)).exclude(
             liked_by=request.user.id).order_by('?').distinct()
-    print(f'DISPLAY BOOKS: {display_books}')
-    print(len(display_books))
     # display books = display_books.remove if seen_by == user.id
+    # selected_genres = '-'.join(selected_genres)
+    genre_objs = []
+    for i in selected_genres:
+        genre_objs.append(Genre.objects.get(id=i))
     selected_genres = '-'.join(selected_genres)
-    request.session['selected_genres'] = selected_genres
     if display_books.exists():
+        total_books = len(display_books)
         p_n = Paginator(display_books, 1)
         page = request.GET.get('page')
         pages = p_n.get_page(page)
         return render(request, 'synopsis/synopsis.html',
-                      {'pages': pages, 'selected_genres': selected_genres})
+                      {'pages': pages, 'selected_genres': selected_genres, 'total_books': total_books, 'genre_objs': genre_objs})
     else:
         messages.success(request, (
             "You've seen all there is to see for " + str(genre_name) + " this month, check back soon for more new realeases."))
@@ -109,7 +119,6 @@ def like_view(request, id):
     referer = request.META.get('HTTP_REFERER')
     referer = referer.split('/')
     print(f"refere: {referer}")
-    selected_genres = request.session.get('selected_genres')
     '''liked view is a templateless function that provids 
     the liked_by functionality.
     when the like button is clicked the function is called 
@@ -129,6 +138,8 @@ def like_view(request, id):
         book.liked_by.add(request.user.id)
         liked = True
     if referer[-2] == "synopsis":
+        selected_genres = referer[-1]
+        print(selected_genres)
         return redirect(synopsis, selected_genres)
     else:
         return HttpResponseRedirect(reverse('book_info', kwargs={'book_id': book_id}))

@@ -24,16 +24,17 @@
           </div>
         <div><h3>Register</h3></div>
 
+
 {% if form.errors %}
-    <p>There was an Error With your regirstration, see deatils below.</p>
-    {{form.errors}}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+<h6>There was an Error With your regirstration...</h6>
+  <h6>{{form.errors}}</h6>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 {% endif %}
 
  <!-- ///// REGISTRATION FORM ///// -->
   <div class = 'auth-container'>
-
-    <div> New User Registration form</div>
-
     <div class = 'register-form'>
       <form action= "{% url 'register_user' %}" method="POST" class = 'auth-form'>
           {% csrf_token %}

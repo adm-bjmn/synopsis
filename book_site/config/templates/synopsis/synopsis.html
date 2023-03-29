@@ -16,9 +16,20 @@
 {% if user.is_authenticated %}
 <section class = 'home-section'>
   {% for book in pages %}
+  {% if messages %}
+    <h6>We found {{ total_books }} new realeases in
+      {%for i in genre_objs%}
+        {% if forloop.last %}
+          {{i.ght}}...
+        {% else %}
+        {{i.ght}} &
+        {% endif %}
+      {% endfor %} 
+    </h6>
+  {% endif %}
     <div class="my-books-book-wrapper">
           <div class="book-info-text">
-            <h5>{{book.synopsis}}...</h5>
+            <h6>{{book.synopsis}}...</h6>
           </div>
       {% if pages.has_next %}
       <div class="button-array">
@@ -28,17 +39,16 @@
             <div>
               <!-- if liked by user == True-->
               {% if liked == True %}
-              <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove from My
-                  Books</button></h4>
+              <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove from The Maybe Pile</button></h5>
               {% else %}
-              <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"> Add To My Books</button>
-              </h4>
+              <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"> Add To The Maybe Pile</button>
+              </h5>
               {% endif %}
             </div>
           </form>
         </div>
         <div class='next-button'>
-          <h4><a class='genre-button' type="submit" href="?page={{ pages.next_page_number }}">Next</a></h4>
+          <h5><a class='genre-button' type="submit" href="?page={{ pages.next_page_number }}">Next</a></h5>
         </div>
       {% endif%}
         {% if pages.has_next is False %}

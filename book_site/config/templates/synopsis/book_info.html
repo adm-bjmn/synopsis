@@ -22,10 +22,10 @@ Please Login
           <h4>{{book.title}}</h4>
         </div>
         <div class="book-info-text">
-          <h4>{{book.author}}</h4>
+          <h5>{{book.author}}</h5>
         </div>
         <div class="book-info-text">
-          <h5>{{book.synopsis}}...</h5>
+          <h6>{{book.synopsis}}...</h6>
         </div>
         <div class="book-info-text">
           <h6>{{book.publish_date}}</h6>
@@ -47,33 +47,32 @@ Please Login
             <div class='genre-button-wrapper'>
               <!-- if liked by user == True-->
               {% if liked == True %}
-              <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove from My
-                  Books</button></h4>
+              <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove From The Maybe Pile</button></h5>
               {% else %}
-              <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"> Add To My Books</button>
-              </h4>
+              <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"> Add To The Maybe Pile</button>
+              </h5>
               {% endif %}
             </div>
           </form>
         </div>
         {% if selected_genres %}
-          <h4><a class='genre-button' href="{% url 'synopsis' selected_genres %}">Back to Synopsis</a></h4>
+          <h5><a class='genre-button' href="{% url 'synopsis' selected_genres %}">Back to Synopsis</a></h5>
         {% endif %}
       {% else %}
       <div>
-        <h4><a class='genre-button' href="{% url 'my_books' %}">Back to My Books</a></h4>
+        <h5><a class='genre-button' href="{% url 'my_books' %}">Back to my Maybe Pile</a></h5>
       </div>
       <div class='like-book'>
         <form action="{% url 'remove_book' book.id %}" method="POST" class='auth-form'>
           {% csrf_token %}
           <div>
-            <h4><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"
-                onclick="if(confirm('Are You sure?')){}else{return false;};">Remove</button></h4>
+            <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"
+                onclick="if(confirm('Are You sure?')){}else{return false;};">Remove</button></h5>
           </div>
         </form>
       </div>
       <div>
-        <h4><a href="{{book.purchase_link}}" class='genre-button'> Purchase</a></h4>
+        <h5><a href="{{book.purchase_link}}" class='genre-button' target="_blank"> Purchase</a></h5>
       </div>
     </div>
 
@@ -83,16 +82,6 @@ Please Login
       {% endif %}
     </div>
   </div>
-
-
-
-  <!-- these both go back. 
-<div>
-  <a href="{{request.META.HTTP_REFERER|escape}}">Back</a>
-  <a href="javascript:history.go(-1)" class="btn btn-default">Cancel</a>
-</div>
--->
-
 
   {% else %}
   <h3> Please Login to view this page...</h3>

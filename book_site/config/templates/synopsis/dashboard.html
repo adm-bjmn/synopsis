@@ -18,8 +18,9 @@
       Lets find you something to read...</h3>
   </div>
   <div> 
-    Start By choosing a genre...
+    <h6>Start By choosing genres. Select as many as you like...</h6>
   </div>
+  <br/>
     <!-- Genres
   show all genres as buttons for the user to select-->
 
@@ -29,13 +30,14 @@
       {% csrf_token %}
       {% for genres in genre_list%}
         <input type="checkbox" class="btn-check" id="{{genres.genre}}" value={{genres.id}} name="selected_items">
-        <label class="btn btn-outline-primary" for="{{genres.genre}}">{{genres.ght}}</label>
+        <label style="margin:5px;" class="btn btn-outline-secondary" for="{{genres.genre}}">{{genres.ght}}</label>
       {% endfor %}
-      <div style = 'padding-top: 20px;'>
-        <button type="submit", value = "Let's Go", class="btn btn-outline-secondary" style="width:100%">Lets go</button>
+      <div style = 'padding-top: 20px;' dir="rtl">
+      <h4><button type="submit", class="genre-button">Lets Go...</button></h4>
       </div>
     </form>
   </div>
+<div style="padding-bottom:200px;"></div>
 </section>
 
 {% else %}

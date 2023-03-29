@@ -15,8 +15,6 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(
-                request, (f'Logged in as {user}'))
             return redirect('dashboard')  # redirect to genres
         else:
             messages.success(request, ('Login in Failed.'))
@@ -46,8 +44,6 @@ def register_user(request):
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(
-                request, (f'Welcome {user}! \n Lets find you something to read...'))
             return redirect('dashboard')
     else:
         form = RegisterUserForm()

@@ -23,31 +23,31 @@ body {
     padding: 0;
     margin: 0;
     justify-content: center;
-    background-color: black;
+    background-color: #0C374D;
 }
 
 h1 {
-    font-size: 377px;
+    font-size: 330px;
 }
 
 h2 {
-    font-size: 233px;
+    font-size: 145px;
 }
 
 h3 {
-    font-size: 144px;
+    font-size: 117px;
 }
 
 h4 {
-    font-size: 89px;
+    font-size: 63px;
 }
 
 h5 {
-    font-size: 55px;
+    font-size: 45px;
 }
 
 h6 {
-    font-size: 34px;
+    font-size: 27px;
 }
 
 h1,
@@ -63,7 +63,6 @@ strong {
 }
 
 p,
-li,
 span,
 label,
 textarea {
@@ -124,8 +123,8 @@ li {
 .btn-outline-secondary.active,
 .open>.dropdown-toggle.btn-outline-secondary {
     color: #fff;
-    background-color: black;
-    border-color: #285e8e;
+    background-color: #0C374D;
+    border-color: #48A3D4;
 }
 
 .btn {
@@ -236,10 +235,11 @@ li {
 .genre-button {
     color: white;
     font-family: var(--main_font);
-    background-color: black;
+    background-color: #0C374D;
     border: none;
 
 }
+
 
 .synopsis {
     color: white;
@@ -390,4 +390,20 @@ li {
     margin-left: 5%;
     margin-right: 5%;
 
+}
+
+.alert {
+    background-color: #0C374D;
+    border-color: Black;
+
+}
+
+.btn-close {
+    color: white;
+}
+
+
+.li {
+    color: white;
+    font-family: var(--main_font);
 }

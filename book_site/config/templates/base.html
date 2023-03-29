@@ -62,7 +62,7 @@
               </li>
               -->
                   <li class="nav-item">
-                    <a class="nav-link" href="{% url 'my_books' %}">My Books</a>
+                    <a style='color:gray;' class="nav-link" href="{% url 'my_books' %}">The Maybe Pile</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="{% url 'profile' user.id %}"
@@ -84,20 +84,23 @@
             </div>
           </nav>
         </div>
-        {% else %} {% endif %}
-
-        <div class="messages">
-          {% if messages %} {% for message in messages %}
-          <h6>{{ message }}</h6>
-          {% endfor %} {% endif %}
+        {% else %} 
+        {% endif %}
+        {% if messages %} 
+          {% for message in messages %}
+              <div class="alert alert-warning alert-dismissible fade show" role="alert"> 
+              <h6><strong>{{ message }}</strong></h6>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          {% endfor %} 
+        {% endif %}
         </div>
-
         <!-- ==== BLOCK CONTENT ==== -->
         <div class="main-container">
           {% block content %}{% endblock content %}
         </div>
       </div>
 
+      
       <!-- ==== COPYWRITE ==== -->
       <div class="fixed-bottom">
         <a style="padding-left: 2%" href="#">DEMO</a>
