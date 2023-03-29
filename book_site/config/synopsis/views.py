@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Genre, Book, User
-from .forms import UpdateBookForm, BlankForm, GenreForm
+from .forms import UpdateBookForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -14,9 +14,11 @@ def home(request):
     return render(request, 'synopsis/home.html', {})
 
 
+'''
+# ======== FUNCTION BUILD WITH FORM ======== First Version.
 def dashboard(request):
-    ''' Displays all genres to the logged in user and request a selection
-    which will be used as the search criteria for the synopsis function'''
+    Displays all genres to the logged in user and request a selection
+which will be used as the search criteria for the synopsis function
     genre_list = Genre.objects.all()
     if request.method == 'POST':
         form = GenreForm(request.POST)
@@ -34,6 +36,23 @@ def dashboard(request):
         form = GenreForm()
         return render(request, 'synopsis/dashboard.html',
                       {'form': form, 'genre_list': genre_list})
+'''
+
+
+def dashboard(request):
+    ''' Displays all genres to the logged in user and request a selection
+    which will be used as the search criteria for the synopsis function
+    '''
+    genre_list = Genre.objects.all()
+    if request.method == 'POST':
+        selected_genres = request.POST.getlist('selected_items')
+        print(f'selected Genres: {selected_genres}')
+        selected_genres = '-'.join(selected_genres)
+        return redirect(synopsis, selected_genres)
+
+    else:
+        return render(request, 'synopsis/dashboard.html',
+                      {'genre_list': genre_list})
 
 
 def synopsis(request, selected_genres):

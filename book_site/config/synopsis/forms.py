@@ -2,6 +2,14 @@ from django import forms
 from .models import Genre, Book
 from django.forms import ModelForm
 
+# ======= UNUSED FROM ==============
+'''THis form was generatred in the early stages of development as a
+way to slect genres via multiple choice in the sdashboard view
+however I prefered to style the checkboxes myself and so opted 
+to use a loop and get the genre objects instead and give each 
+checkbox a values fto be processd in the view rather than by a form
+'''
+
 
 class GenreForm(forms.Form):
     ''' The genre form is used on the dashboard view to present the user with 
@@ -17,16 +25,6 @@ class GenreForm(forms.Form):
         label='',
         choices=tuple(genre_choices),
         widget=forms.CheckboxSelectMultiple())
-
-
-class BlankForm():
-    blank = forms.CharField()
-
-    class Meta:
-        model = Genre
-        fields = ()
-
-# this form needs bulking out
 
 
 class UpdateBookForm(ModelForm):
