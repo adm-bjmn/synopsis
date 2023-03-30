@@ -4,7 +4,6 @@ from .models import csv_file
 import csv
 import requests
 from synopsis.models import Book, Genre
-import requests
 import lxml
 from bs4 import BeautifulSoup
 from django.contrib import messages
