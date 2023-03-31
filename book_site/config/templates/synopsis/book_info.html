@@ -39,26 +39,11 @@ Please Login
         </div>
       </div>
     </div>
+    <div style="height:30px;"></div>
     <div class="button-array">
-      {% if request.META.HTTP_REFERER != 'http://127.0.0.1:8000/my_books' %}
-        <div class='like-book'>
-          <form action="{% url 'like_book' book.id  %}" method="POST" class='auth-form'>
-            {% csrf_token %}
-            <div class='genre-button-wrapper'>
-              <!-- if liked by user == True-->
-              {% if liked == True %}
-              <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove From The Maybe Pile</button></h5>
-              {% else %}
-              <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"> Add To The Maybe Pile</button>
-              </h5>
-              {% endif %}
-            </div>
-          </form>
-        </div>
-        {% if selected_genres %}
-          <h5><a class='genre-button' href="{% url 'synopsis' selected_genres %}">Back to Synopsis</a></h5>
-        {% endif %}
-      {% else %}
+      {% if selected_genres %}
+        <h5><a class='genre-button' href="{% url 'synopsis' selected_genres %}">Back to Synopsis</a></h5>
+      {% endif %}
       <div>
         <h5><a class='genre-button' href="{% url 'my_books' %}">Back to my Maybe Pile</a></h5>
       </div>
@@ -76,15 +61,35 @@ Please Login
       </div>
     </div>
 
-      <!--
-      <a href="{% url 'remove_book' book.id %}"><button type="button" class="btn btn-outline-secondary"onclick="if(confirm('Are You sure?')){}else{return false;};">
-                    Remove from my books</button></a>-->
-      {% endif %}
+
     </div>
   </div>
 
   {% else %}
   <h3> Please Login to view this page...</h3>
   {% endif %}
-
+  <div style="height:30px;"></div>
   {% endblock content%}
+
+
+<!--{% if request.META.HTTP_REFERER != 'http://127.0.0.1:8000/my_books' %}
+<div class='like-book'>
+  <form action="{% url 'like_book' book.id  %}" method="POST" class='auth-form'>
+    {% csrf_token %}
+    <div class='genre-button-wrapper'>
+      {% if liked == True %}
+      <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove From The Maybe Pile</button></h5>
+      {% else %}
+      <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"> Add To The Maybe Pile</button>
+      </h5>
+      {% endif %}
+    </div>
+  </form>
+</div>-->
+
+
+
+      <!--
+      <a href="{% url 'remove_book' book.id %}"><button type="button" class="btn btn-outline-secondary"onclick="if(confirm('Are You sure?')){}else{return false;};">
+                    Remove from my books</button></a>-->
+      <!--{% endif %}-->

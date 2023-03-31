@@ -322,6 +322,8 @@ li {
     margin: 2%;
     border: 1px solid white;
     border-radius: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .my-books-info-outer {
