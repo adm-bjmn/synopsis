@@ -118,7 +118,8 @@ def book_info(request, book_id):
 def like_view(request, id):
     referer = request.META.get('HTTP_REFERER')
     referer = referer.split('/')
-    print(f"refere: {referer}")
+    selected_genres = referer[-1].partition('?')[0]
+
     '''liked view is a templateless function that provids 
     the liked_by functionality.
     when the like button is clicked the function is called 
@@ -138,7 +139,7 @@ def like_view(request, id):
         book.liked_by.add(request.user.id)
         liked = True
     if referer[-2] == "synopsis":
-        selected_genres = referer[-1]
+
         print(selected_genres)
         return redirect(synopsis, selected_genres)
     else:
