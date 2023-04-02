@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load synopsis_tags %}
 {% load static %}
 {% block title %}
   {% if user.is_authenticated %}
@@ -17,6 +18,8 @@
 {% if user.is_authenticated %}
 <section class = 'home-section'>
   {% for book in pages %}
+  {% test_tag book.id user.id%}
+{{book.id}}
   {% if messages %}
     <h6>We found {{ total_books }} new realeases in
       {%for i in genre_objs%}
@@ -29,8 +32,17 @@
     </h6>
   {% endif %}
     <div class="synopsis-books-book-wrapper">
-      <div class="synopsis-book-info-text">
-        <h6>{{book.synopsis|slice:":700"}}...</h6>
+      <div class='synopsis-info'>
+        <div class="synopsis-book-info-text">
+          <h6>{{book.synopsis|slice:":700"}}...</h6>
+        </div>
+        <div class='synopsis-image'>
+          <div class="book-image">
+            <img itemprop="image" id="scope_book_image" class="js-open-modal" data-modal-id="zoomModal"
+              src="{{book.img_link}}" data-zoom-src="{{book.img_link}}" alt="{{book.title}}" onerror="imgError(this)"
+              width="200" style="border-radius:15px;">
+          </div>
+        </div>
       </div>
       {% if pages.has_next %}
       <div class="synopsis-buttons">

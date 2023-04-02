@@ -245,8 +245,20 @@ li {
     color: white;
 }
 
-.synopsis-books-book-wrapper {
+.synopsis-info {
+    display: flex;
+    flex-direction: row;
+    margin: 2%;
 
+}
+
+.synopsis-image {
+    padding-left: 20px;
+}
+
+.synopsis-books-book-wrapper {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
     border: 1px solid white;
@@ -255,13 +267,11 @@ li {
 
 .synopsis-buttons {
     width: 100%;
-
     bottom: 0;
 }
 
 .synopsis-book-info-text {
-    height: 350px;
-    margin: 2%;
+
     width: auto;
 }
 
