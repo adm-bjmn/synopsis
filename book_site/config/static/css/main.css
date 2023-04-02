@@ -245,6 +245,35 @@ li {
     color: white;
 }
 
+.synopsis-books-book-wrapper {
+
+    width: 100%;
+    height: 100%;
+    border: 1px solid white;
+    border-radius: 20px;
+}
+
+.synopsis-buttons {
+    width: 100%;
+
+    bottom: 0;
+}
+
+.synopsis-book-info-text {
+    height: 350px;
+    margin: 2%;
+    width: auto;
+}
+
+.end-of-books-message-wrapper {
+    width: 100%;
+    margin: 5%;
+}
+
+.end-message {
+    width: 100%;
+    margin: 1%;
+}
 
 .update-database-container {
     width: auto;
@@ -337,6 +366,7 @@ li {
 
 }
 
+
 #title {
     font-size: large;
     font-family: var(--main_font);
@@ -408,4 +438,12 @@ li {
 .li {
     color: white;
     font-family: var(--main_font);
+}
+
+#no-button {
+    width: 150px;
+}
+
+#heart-button {
+    width: 150px;
 }

@@ -45,7 +45,7 @@ Please Login
         <h5><a class='genre-button' href="{% url 'synopsis' selected_genres %}">Back to Synopsis</a></h5>
       {% endif %}
       <div>
-        <h5><a class='genre-button' href="{% url 'my_books' %}">Back to my Maybe Pile</a></h5>
+        <h5><a class='genre-button' href="{% url 'my_books' %}">Back</a></h5>
       </div>
       <div class='like-book'>
         <form action="{% url 'remove_book' book.id %}" method="POST" class='auth-form'>

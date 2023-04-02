@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}
   {% if user.is_authenticated %}
   - Welcome {{user.first_name}}
@@ -13,6 +13,7 @@
 <div>
   <h4 class="main-titles" style="margin-bottom:1%;">Synopsis</h4>
 </div>
+<br/>
 {% if user.is_authenticated %}
 <section class = 'home-section'>
   {% for book in pages %}
@@ -27,34 +28,52 @@
       {% endfor %} 
     </h6>
   {% endif %}
-    <div class="my-books-book-wrapper">
-          <div class="book-info-text">
-            <h6>{{book.synopsis}}...</h6>
-          </div>
+    <div class="synopsis-books-book-wrapper">
+      <div class="synopsis-book-info-text">
+        <h6>{{book.synopsis|slice:":700"}}...</h6>
+      </div>
       {% if pages.has_next %}
-      <div class="button-array">
-        <div>
-          <form action="{% url 'like_book' book.id  %}" method="POST" class='synopsis-form'>
-            {% csrf_token %}
-            <div>
-              <!-- if liked by user == True-->
-              {% if liked == True %}
-              <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove from The Maybe Pile</button></h5>
-              {% else %}
-              <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"> Add To The Maybe Pile</button>
-              </h5>
-              {% endif %}
-            </div>
-          </form>
+      <div class="synopsis-buttons">
+        <div class="button-array">
+          <div class='next-button'>
+          <a class='genre-button' type="submit" href="?page={{ pages.next_page_number }}"><img id='no-button' src="{% static 'images/No.svg' %}"></a>
+          </div>
+          <div>
+            <form action="{% url 'like_book' book.id  %}" method="POST" class='synopsis-form'>
+              {% csrf_token %}
+              <div>
+                <!-- if liked by user == True-->
+                {% if liked == True %}
+                <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove from The Maybe Pile</button></h5>
+                {% else %}
+                <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"><img id='heart-button' src="{% static 'images/heart.svg' %}"></button>
+                </h5>
+                {% endif %}
+              </div>
+            </form>
+          </div>
         </div>
-        <div class='next-button'>
-          <h5><a class='genre-button' type="submit" href="?page={{ pages.next_page_number }}">Next</a></h5>
-        </div>
+        <br/>
+      </div>
+
       {% endif%}
         {% if pages.has_next is False %}
-        There are no books left in your search, You can reset seen books in account infromation.
-        <a href = "{% url 'dashboard' %}" class = 'synopsis'>Back to genres select.</a>
-        {% endif %}
+      <div class='end-of-books-message-wrapper'>
+        <div class='end-message'>
+          <h6>Thats all the new releases for
+            {%for i in genre_objs%}
+            {% if forloop.last %}
+              {{i.ght}}.
+            {% else %}
+            {{i.ght}} &
+            {% endif %}
+            {% endfor %}</h6>
+            <h6>You can reset the books you've seen under Account info.
+          </h6>
+        </br>
+          <h6><a style='color:gray;' href = "{% url 'dashboard' %}" class = 'synopsis'>Back to genres select.</a></h6>
+          {% endif %}
+        </div>
       </div>
     </div>
     <!--//// TESTING PAGINATION ////
@@ -65,6 +84,7 @@
     Total : {{pages.paginator.num_pages}}<br/>
     //// -->
   {% endfor %}
+
 </section>
 
 {% else %}
