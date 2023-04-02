@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 from .forms import RegisterUserForm, EditProfileForm, ChangeUserPassword
 from .models import User
+from synopsis.models import Book
 # Create your views here.
 
 
@@ -89,4 +90,14 @@ def delete_user(request, user_id):
     user_to_delete.delete()
     messages.success(
         request, (f'Your Profile has been deleted.'))
+    return redirect('home')
+
+
+def reset_synopsis(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    seen_books = Book.objects.all().filter(seen_by=user)
+    for book in seen_books:
+        book.seen_by.remove(user)
+    messages.success(
+        request, (f'Your books have been reset.'))
     return redirect('home')

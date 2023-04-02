@@ -19,7 +19,6 @@
 <section class = 'home-section'>
   {% for book in pages %}
   {% test_tag book.id user.id%}
-{{book.id}}
   {% if messages %}
     <h6>We found {{ total_books }} new realeases in
       {%for i in genre_objs%}

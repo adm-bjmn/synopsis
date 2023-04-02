@@ -37,6 +37,10 @@
           info</button></a>
     </div>
     <div class="update-book-button">
+      <a href="{% url 'reset_synopsis' user.id %}"><button type="button" class="btn btn-outline-secondary">Reset Synopsis
+      </button></a>
+    </div>
+    <div class="update-book-button">
       <a href="{% url 'change_password' user.id %}"><button type="button" class="btn btn-outline-secondary">Change
           Password</button></a>
     </div>
