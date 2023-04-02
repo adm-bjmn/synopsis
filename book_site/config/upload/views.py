@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from django.contrib import messages
 import pandas as pd
 from django.conf import settings
-
+from datetime import datetime
 # Create your views here.
 
 
@@ -60,7 +60,8 @@ def backup_via_csv(request):
 # --- ---
 
 
-def upload_by_scrape(request):  # approx 25 minutes
+def upload_by_scrape(request):
+    # approx 25 minutes
     ''' Upload by scrape employs a webscraping algorithm that scrapes 
     the popular bok sellers website www.waterstones.com
     The function visits the landing page of 600 new releases and gather 
@@ -70,67 +71,82 @@ def upload_by_scrape(request):  # approx 25 minutes
     of all book information for data analysis etc.
     '''
     if request.method == "POST":
-        # a user agent must be supplied by the user.
         user_agent = request.POST['user_agent']
-        # all books are deleted prior to populating the
-        # database with new information.
-        Book.objects.all().delete()
-        # print(user_agent)
-        # ============== LISTS ==============
-        links_list = []
-        book_list = []
-        genre_list = []
-        all_genres = []
-
-        # ============== WEBSCRAPING FOR URLS ==============
         headers = {
             'User-Agent': user_agent}
+        url = f'https://www.waterstones.com'
+        test = requests.get(url, headers=headers)
+        if test.status_code == 200:
+            success_message = webscraper(headers)
+            messages.success(request, (success_message))
+            return render(request, 'synopsis/home.html', {})
+        else:
+            messages.success(
+                request, ('Could not connect to data source. Please make sure your User-Agent is correct.'))
+            return render(request, 'upload/upload.html', {})
+    else:
+        return render(request, 'upload/upload.html', {})
 
-        for page_number in range(0, 26):
-            ''' scraper visits the new realases page and gathers urls for 600 new books.
-            '''
-            url = f'https://www.waterstones.com/campaign/new-books/sort/pub-date-desc/page/{page_number}'
-            page = requests.get(url, headers=headers)
-            print(page.status_code)
-            soup = BeautifulSoup(page.text, 'lxml')
-            # print(soup.title.text)
-            books = soup.find_all('div', {
-                'class': 'title-wrap'})
-            # print(len(books))
-            # print(type(books))
-            for items in books:
-                book_url = 'https://www.waterstones.com' + \
-                    items.find(
-                        'a', {'class': 'title link-invert dotdotdot'})['href']
-                links_list.append(book_url)
-        # print(links_list)
-        print(len(links_list))
 
-        # ============== WEBSCRAPING FOR BOOK INFO ==============
-        for link in links_list:
-            ''' for all the links in the previously populated links list the 
-            scraper will visit the link to the books info page on 
-            waterstones.com, strip the relevant information and create 
-            a book info list. The list is then used to create a new book
-            object by indexing the information from the book list. 
-            in some cases the informatiuon must be cleaned before the 
-            book object can be created in order to ensure that the information
-            in the fields is uniform accross all book objects.
-            '''
-            url = link
-            # url = links_list[14]
-            page = requests.get(url, headers=headers)
-            # print(page.status_code)
-            soup = BeautifulSoup(page.text, 'lxml')
-            book_info = []
-            print(soup.title.text)
+def webscraper(headers):
+    headers = headers
+    objects = Book.objects.all()
+    # Get a list of all titles
+    titles_list = list(objects.values_list('title', flat=True))
+    # a user agent must be supplied by the user.
+    # all books are deleted prior to populating the
+    # database with new information.
+    # Book.objects.all().delete()
+    # print(user_agent)
+    # ============== LISTS ==============
+    links_list = []
+    book_list = []
+    genre_list = []
+    all_genres = []
 
-            # == Title ==
-            title = soup.find(
-                'span', {'class': 'book-title'}).text
+    # ============== WEBSCRAPING FOR URLS ==============
+    for page_number in range(0, 3):
+        ''' scraper visits the new realases page and gathers urls for 600 new books.
+        '''
+        url = f'https://www.waterstones.com/campaign/new-books/sort/pub-date-desc/page/{page_number}'
+        page = requests.get(url, headers=headers)
+        print(page.status_code)
+        soup = BeautifulSoup(page.text, 'lxml')
+        # print(soup.title.text)
+        books = soup.find_all('div', {
+            'class': 'title-wrap'})
+        for items in books:
+            book_url = 'https://www.waterstones.com' + \
+                items.find(
+                    'a', {'class': 'title link-invert dotdotdot'})['href']
+            links_list.append(book_url)
+
+    # ============== WEBSCRAPING FOR BOOK INFO ==============
+    for link in links_list:
+        ''' for all the links in the previously populated links list the 
+        scraper will visit the link to the books info page on 
+        waterstones.com, strip the relevant information and create 
+        a book info list. The list is then used to create a new book
+        object by indexing the information from the book list. 
+        in some cases the informatiuon must be cleaned before the 
+        book object can be created in order to ensure that the information
+        in the fields is uniform accross all book objects.
+        '''
+        url = link
+        # url = links_list[14]
+        page = requests.get(url, headers=headers)
+        # print(page.status_code)
+        soup = BeautifulSoup(page.text, 'lxml')
+        book_info = []
+
+        # == Title ==
+        title = soup.find(
+            'span', {'class': 'book-title'}).text
+        if title in titles_list:
+            continue
+        else:
             book_info.append(title)
             # print(title)
-
             # == Author ==
             author = soup.find(
                 'span', {'itemprop': 'author'}).text
@@ -166,7 +182,8 @@ def upload_by_scrape(request):  # approx 25 minutes
             for i in remove_list:
                 genre = genre.replace(i, ',')
             genre = genre.split(',')
-            genre = [items.strip().replace(' ', '').lower() for items in genre]
+            genre = [items.strip().replace(' ', '').lower()
+                     for items in genre]
             genre_list.append(genre)
             # if 'travel' in genre:
             # print('oui madam')
@@ -180,8 +197,6 @@ def upload_by_scrape(request):  # approx 25 minutes
             # == Image ==
             img = soup.find('img', {'itemprop': 'image'})['src']
             book_info.append(img)
-            # print(img)
-            print(book_info)
             book_list.append(book_info)
 
             # == ADD BOOK TO DATABASE ==
@@ -200,11 +215,8 @@ def upload_by_scrape(request):  # approx 25 minutes
             book.genre.set(
                 [all_genres.get(i) for i in book_info[4] if i in all_genres.keys()])
         print(all_genres)
-        generate_csv(book_list)
-        messages.success(request, ('The Database has been updated'))
-        return render(request, 'synopsis/home.html', {})
-    else:
-        return render(request, 'upload/upload.html', {})
+    generate_csv(book_list)
+    return 'The Database has been updated.'
 
 
 def generate_csv(book_list):
