@@ -41,6 +41,16 @@
         onclick="if(confirm('This will reset all the books that you have seen before and they will reappear in future searches. Would you like to Proceed?')){}else{return false;};" id="deletebutton">Reset Synopsis
       </button></a>
     </div>
+    <div>
+    <form action="{% url 'toggle_instructions' user.id  %}" method="POST" style='padding-right:5px;'>
+    {% csrf_token %}
+    {% if member.seen_instructions == False %}
+    <button class="btn btn-outline-secondary" type="submit" name="user.id" value="{{user.id}}">Hide Instructions</button>
+    {% else %}
+    <button class="btn btn-outline-secondary" type="submit" name="user.id" value="{{user.id}}">Show Instructions</button>
+    </form>
+    {% endif %}
+    </div>
     <div class="update-book-button">
       <a href="{% url 'change_password' user.id %}"><button type="button" class="btn btn-outline-secondary">Change
           Password</button></a>

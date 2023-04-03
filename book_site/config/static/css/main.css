@@ -62,6 +62,13 @@ strong {
     font-weight: 500;
 }
 
+em {
+    font-family: var(--main_font);
+    color: var(--main_text_color);
+    font-weight: 500;
+    font-size: 18px;
+}
+
 p,
 span,
 label,
@@ -102,6 +109,17 @@ li {
     margin-bottom: 2%;
     margin-right: 2%;
 
+}
+
+.instructions {
+    font-family: var(--main_font);
+    color: var(--main_text_color);
+    font-weight: 500;
+    font-size: 27px;
+}
+
+strong {
+    color: gray;
 }
 
 /* ===========
@@ -456,4 +474,12 @@ li {
 
 #heart-button {
     width: 150px;
+}
+
+#ins-no {
+    width: 80px;
+}
+
+#ins-heart {
+    width: 80px;
 }

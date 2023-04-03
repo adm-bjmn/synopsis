@@ -3,8 +3,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 from .forms import RegisterUserForm, EditProfileForm, ChangeUserPassword
-from .models import User
+from .models import User, Member
 from synopsis.models import Book
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+from synopsis import urls, views
+
 # Create your views here.
 
 
@@ -52,9 +56,10 @@ def register_user(request):
 
 
 def user_profile(request, user_id):
+    member = request.user.member
     ''' Simple view to show a user their profile information in profile.html'''
     user = get_object_or_404(User, id=user_id)
-    return render(request, 'members/profile.html', {'user': user, })
+    return render(request, 'members/profile.html', {'user': user, 'member': member})
 
 
 def update_profile(request, user_id):
@@ -101,3 +106,28 @@ def reset_synopsis(request, user_id):
     messages.success(
         request, (f'Your books have been reset.'))
     return redirect('home')
+
+
+def toggle_instructions(request, user_id):
+    referer = request.META.get('HTTP_REFERER')
+    referer = referer.split('/')
+    selected_genres = referer[-1].partition('?')[0]
+
+    user = get_object_or_404(User, id=user_id)
+    member = request.user.member
+    print(member.seen_instructions)
+    if member.seen_instructions == False:
+        print('The member is false')
+        member.seen_instructions = True
+        member.save()
+        print(member.seen_instructions)
+    else:
+        print('theember is true')
+        member.seen_instructions = False
+        member.save()
+        print(member.seen_instructions)
+    if referer[-2] == "synopsis":
+        print(selected_genres)
+        return redirect('synopsis', selected_genres)
+    else:
+        return HttpResponseRedirect(reverse('profile', kwargs={'user_id': user_id}))

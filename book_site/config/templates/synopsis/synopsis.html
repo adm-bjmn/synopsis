@@ -2,11 +2,11 @@
 {% load synopsis_tags %}
 {% load static %}
 {% block title %}
-  {% if user.is_authenticated %}
-  - Welcome {{user.first_name}}
-  {%else%}
-    - Please Login
-  {% endif %}
+{% if user.is_authenticated %}
+- Welcome {{user.first_name}}
+{%else%}
+- Please Login
+{% endif %}
 {% endblock title %}
 
 
@@ -14,64 +14,99 @@
 <div>
   <h4 class="main-titles" style="margin-bottom:1%;">Synopsis</h4>
 </div>
-<br/>
+<br />
 {% if user.is_authenticated %}
-<section class = 'home-section'>
+<section class='home-section'>
+  {% if member.seen_instructions == False %}
+  <p class="instructions">
+    Welcome to synopsis. This is the part of the app where you can start adding books to
+    <strong>The Maybe Pile</strong><br>
+    Synopsis aims to have an emphasis on content more so than cover art and what the New York times says about a book,
+    so try not think to much. From the synopsis snipet make a decision if the book sounds good to you or not and if not
+    move
+    on, but if you think you might like to know more then add the book to <strong>The Maybe pile!</strong><br><br>
+    To add a book to <strong>The Maybe Pile</strong> simply click the heart - <img id='ins-heart'
+      src="{% static 'images/heart.svg' %}"><br><br>
+    If your not interested, skip to the next book by clicking - <img id='ins-no'
+      src="{% static 'images/No.svg' %}"><br><br>
+    Any books you have seen will be removed from future searches so if its not in your Maybe Pile then its gone! Just
+    kidding, you can reset your seen history in the Account Info section.<br>
+    Once you’ve added to a few potentials to your Maybe Pile head over there using the navigation links above to find
+    more information such as title, author and a full synopsis!<br><br>
+    I hope you find something you can get your teeth into!
+  </p><br>
+  <form action="{% url 'toggle_instructions' user.id  %}" method="POST" class='synopsis-form'>
+    {% csrf_token %}
+    <p><button class="btn btn-outline-secondary" type="submit" name="user.id" value="{{user.id}}">Hide
+        Instructions</button></p>
+  </form>
+  <br>
+
+  {% endif %}
   {% for book in pages %}
-    {% test_tag book.id user.id%}
-      <h6>We found {{ total_books }} new realeases in
-        {%for i in genre_objs%}
-          {% if forloop.last %}
-            {{i.ght}}...
-          {% else %}
-          {{i.ght}} &
-          {% endif %}
-        {% endfor %} 
-      </h6>
-    <div class="synopsis-books-book-wrapper">
-      <div class='synopsis-info'>
-        <div class="synopsis-book-info-text">
-          <h6>{{book.synopsis|slice:":700"}}...</h6>
-        </div>
-        <div class='synopsis-image'>
-          <div class="book-image">
-            <img itemprop="image" id="scope_book_image" class="js-open-modal" data-modal-id="zoomModal"
-              src="{{book.img_link}}" data-zoom-src="{{book.img_link}}" alt="{{book.title}}" onerror="imgError(this)"
-              width="200" style="border-radius:15px;">
-          </div>
+  {% test_tag book.id user.id%}
+  <div style="padding-bottom:5px;">
+    <h6>We found {{ total_books }} new realeases in
+      {%for i in genre_objs%}
+      {% if forloop.last %}
+      {{i.ght}}...
+      {% else %}
+      {{i.ght}} &
+      {% endif %}
+      {% endfor %}
+    </h6>
+  </div>
+  <div class="synopsis-books-book-wrapper">
+    <div class='synopsis-info'>
+      <div class="synopsis-book-info-text">
+        <h6>{{book.synopsis|slice:":700"}}...</h6>
+      </div>
+      <div class='synopsis-image'>
+        <div class="book-image">
+          <img itemprop="image" id="scope_book_image" class="js-open-modal" data-modal-id="zoomModal"
+            src="{{book.img_link}}" data-zoom-src="{{book.img_link}}" alt="{{book.title}}" onerror="imgError(this)"
+            width="200" style="border-radius:15px;">
         </div>
       </div>
-      <div class="synopsis-buttons">
-        <div class="button-array">
-          {%if pages.has_next %}
-          <div class='next-button'>
-          <a class='genre-button' type="submit" href="?page={{ pages.next_page_number }}"><img id='no-button' src="{% static 'images/No.svg' %}"></a>
-          </div>
-          {%else%}
-          <div class='next-button'>
-            <a class='genre-button' type="submit" href="{% url 'the_last_page' selected_genres %}"><img id='no-button' src="{% static 'images/No.svg' %}"></a>
+    </div>
+    <div class="synopsis-buttons">
+      <div class="button-array">
+        {%if pages.has_next %}
+        <div class='next-button'>
+          <a class='genre-button' type="submit" href="?page={{ pages.next_page_number }}"><img id='no-button'
+              src="{% static 'images/No.svg' %}"></a>
+        </div>
+        {%else%}
+        <div class='next-button'>
+          <a class='genre-button' type="submit" href="{% url 'the_last_page' selected_genres %}"><img id='no-button'
+              src="{% static 'images/No.svg' %}"></a>
+        </div>
+        {% endif %}
+        <div>
+          <form action="{% url 'like_book' book.id  %}" method="POST" class='synopsis-form'>
+            {% csrf_token %}
+            <div>
+              <!-- if liked by user == True-->
+              {% if liked == True %}
+              <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove from The Maybe
+                  Pile</button></h5>
+              {% else %}
+              <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"><img id='heart-button'
+                    src="{% static 'images/heart.svg' %}"></button>
+              </h5>
+              {% endif %}
             </div>
-          {% endif %}
-          <div>
-            <form action="{% url 'like_book' book.id  %}" method="POST" class='synopsis-form'>
-              {% csrf_token %}
-              <div>
-                <!-- if liked by user == True-->
-                {% if liked == True %}
-                <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove from The Maybe Pile</button></h5>
-                {% else %}
-                <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"><img id='heart-button' src="{% static 'images/heart.svg' %}"></button>
-                </h5>
-                {% endif %}
-              </div>
-            </form>
-          </div>
+          </form>
         </div>
-        <br/>
       </div>
-  {% endfor %}
+      <br />
+    </div>
+    {% endfor %}
 
 </section>
+<div style='height: 300px;'>
+
+</div>
 <!--
 {{ pages }}<br/>
 Has Next : {{pages.has_next}}<br/>
@@ -80,10 +115,7 @@ Current : {{pages.number}}<br/>
 Total : {{pages.paginator.num_pages}}<br/>
 -->
 {% else %}
-  <h3> Please Login to view this page...</h3>
+<h3> Please Login to view this page...</h3>
 {% endif %}
-  
+
 {% endblock content%}
-
-
-

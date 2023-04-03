@@ -73,6 +73,7 @@ def synopsis(request, selected_genres):
     Once the user has seen all books in a search they are shown a message
     acknowledging this and given the option to return to the dashboard.
     '''
+    member = request.user.member
     selected_genres = selected_genres.split('-')
     # print(f'selected genres: {selected_genres}')
     # print(f'selected type: {type(selected_genres)}')
@@ -93,7 +94,7 @@ def synopsis(request, selected_genres):
         page = request.GET.get('page')
         pages = p_n.get_page(page)
         return render(request, 'synopsis/synopsis.html',
-                      {'pages': pages, 'selected_genres': selected_genres, 'total_books': total_books, 'genre_objs': genre_objs})
+                      {'pages': pages, 'selected_genres': selected_genres, 'total_books': total_books, 'genre_objs': genre_objs, 'member': member})
     else:
         messages.success(
             request, 'We couldnt find anything to match your search. Try reseting synopsis in Account Info to see books again.')
