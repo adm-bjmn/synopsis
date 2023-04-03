@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  {% if user.is_authenticated %}
+  - No More Books Compadre {{user.first_name}}
+  {%else%}
+    - Please Login
+  {% endif %}
+{% endblock title %}
+
+
+{% block content %}
+<div>
+    <h4 class="main-titles" style="margin-bottom:1%;">Synopsis</h4>
+</div>
+<br/>
+  {% if user.is_authenticated %}
+<section class = 'home-section'>
+
+<div class='end-of-books-message-wrapper'>
+    <div class='end-message'>
+      <h6>You've seen all the new releases for
+        {%for i in genre_objs%}
+        {% if forloop.last %}
+          {{i.ght}}.
+        {% else %}
+        {{i.ght}} &
+        {% endif %}
+        {% endfor %}</h6>
+        <h6>You can reset the books you've seen under Account info.
+      </h6>
+      </br>
+      <h6><a style='color:gray;' href = "{% url 'dashboard' %}" class = 'synopsis'>Back to genres select.</a></h6>
+    </div>
+  </div>
+
+</section>
+{% else %}
+  <h3> Please Login to view this page...</h3>
+{% endif %}
+  
+{% endblock content%}

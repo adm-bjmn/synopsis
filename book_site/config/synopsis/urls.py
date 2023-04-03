@@ -5,6 +5,8 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('synopsis/<selected_genres>', views.synopsis, name='synopsis'),
+    path('lastpage/<selected_genres>',
+         views.the_last_page, name='the_last_page'),
     path('book_info/<book_id>', views.book_info, name='book_info'),
     path('like_book/<int:id>',
          views.like_view, name='like_book'),

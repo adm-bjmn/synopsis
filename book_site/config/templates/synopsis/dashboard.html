@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load synopsis_tags %}
 {% block title %}
   {% if user.is_authenticated %}
    - Select your favourite genres 
@@ -10,7 +10,7 @@
 
 
 {% block content %}
-
+{% seen_by_tag user.id%}
 {% if user.is_authenticated %}
 <section class = 'home-section'>
   <div class = 'site-intro-wrapper'>

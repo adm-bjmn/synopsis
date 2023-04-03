@@ -18,18 +18,16 @@
 {% if user.is_authenticated %}
 <section class = 'home-section'>
   {% for book in pages %}
-  {% test_tag book.id user.id%}
-  {% if messages %}
-    <h6>We found {{ total_books }} new realeases in
-      {%for i in genre_objs%}
-        {% if forloop.last %}
-          {{i.ght}}...
-        {% else %}
-        {{i.ght}} &
-        {% endif %}
-      {% endfor %} 
-    </h6>
-  {% endif %}
+    {% test_tag book.id user.id%}
+      <h6>We found {{ total_books }} new realeases in
+        {%for i in genre_objs%}
+          {% if forloop.last %}
+            {{i.ght}}...
+          {% else %}
+          {{i.ght}} &
+          {% endif %}
+        {% endfor %} 
+      </h6>
     <div class="synopsis-books-book-wrapper">
       <div class='synopsis-info'>
         <div class="synopsis-book-info-text">
@@ -43,12 +41,17 @@
           </div>
         </div>
       </div>
-      {% if pages.has_next %}
       <div class="synopsis-buttons">
         <div class="button-array">
+          {%if pages.has_next %}
           <div class='next-button'>
           <a class='genre-button' type="submit" href="?page={{ pages.next_page_number }}"><img id='no-button' src="{% static 'images/No.svg' %}"></a>
           </div>
+          {%else%}
+          <div class='next-button'>
+            <a class='genre-button' type="submit" href="{% url 'the_last_page' selected_genres %}"><img id='no-button' src="{% static 'images/No.svg' %}"></a>
+            </div>
+          {% endif %}
           <div>
             <form action="{% url 'like_book' book.id  %}" method="POST" class='synopsis-form'>
               {% csrf_token %}
@@ -66,38 +69,16 @@
         </div>
         <br/>
       </div>
-
-      {% endif%}
-        {% if pages.has_next is False %}
-      <div class='end-of-books-message-wrapper'>
-        <div class='end-message'>
-          <h6>Thats all the new releases for
-            {%for i in genre_objs%}
-            {% if forloop.last %}
-              {{i.ght}}.
-            {% else %}
-            {{i.ght}} &
-            {% endif %}
-            {% endfor %}</h6>
-            <h6>You can reset the books you've seen under Account info.
-          </h6>
-        </br>
-          <h6><a style='color:gray;' href = "{% url 'dashboard' %}" class = 'synopsis'>Back to genres select.</a></h6>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-    <!--//// TESTING PAGINATION ////
-    {{ pages }}<br/>
-    Has Next : {{pages.has_next}}<br/>
-    Has Prev : {{pages.has_previous}}<br/>
-    Current : {{pages.number}}<br/>
-    Total : {{pages.paginator.num_pages}}<br/>
-    //// -->
   {% endfor %}
 
 </section>
-
+<!--
+{{ pages }}<br/>
+Has Next : {{pages.has_next}}<br/>
+Has Prev : {{pages.has_previous}}<br/>
+Current : {{pages.number}}<br/>
+Total : {{pages.paginator.num_pages}}<br/>
+-->
 {% else %}
   <h3> Please Login to view this page...</h3>
 {% endif %}
