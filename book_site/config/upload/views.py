@@ -139,86 +139,87 @@ def webscraper(headers):
         url = link
         # url = links_list[14]
         page = requests.get(url, headers=headers)
-        # print(page.status_code)
-        soup = BeautifulSoup(page.text, 'lxml')
-        book_info = []
+        if page.status_code == 200:
+            soup = BeautifulSoup(page.text, 'lxml')
+            book_info = []
 
-        # == Title ==
-        title = soup.find(
-            'span', {'class': 'book-title'}).text
-        if title in titles_list:
-            continue
-        else:
-            book_info.append(title)
-            # print(title)
-            # == Author ==
-            author = soup.find(
-                'span', {'itemprop': 'author'}).text
-            book_info.append(author)
-            # print(author)
-
-            # == Synopsis ==
-            synopsis = soup.find(
-                'div', {'id': 'scope_book_description'})
-            unwanted = synopsis.find('strong')
-            if unwanted:
-                unwanted.extract()
+            # == Title ==
+            title = soup.find(
+                'span', {'class': 'book-title'}).text
+            if title in titles_list:
+                continue
             else:
-                None
-            # print(synopsis.text.strip())
-            book_info.append(synopsis.text.strip().replace('\n', ' '))
+                book_info.append(title)
+                # print(title)
+                # == Author ==
+                author = soup.find(
+                    'span', {'itemprop': 'author'}).text
+                book_info.append(author)
+                # print(author)
 
-            # == Publish Date ==
-            publish_date = soup.find(
-                'meta', {'itemprop': 'datePublished'})['content']
-            book_info.append(publish_date)
-            # print(publish_date)
+                # == Synopsis ==
+                synopsis = soup.find(
+                    'div', {'id': 'scope_book_description'})
+                unwanted = synopsis.find('strong')
+                if unwanted:
+                    unwanted.extract()
+                else:
+                    None
+                # print(synopsis.text.strip())
+                book_info.append(synopsis.text.strip().replace('\n', ' '))
 
-            # == Genre ==
-            genre = soup.find(
-                'div', {'class': 'breadcrumbs span12'})
-            unwanted = (genre.find('strong'))
-            unwanted.extract()
-            unwanted = (genre.find('br'))
-            unwanted.extract()
-            genre = genre.text.strip()
-            remove_list = ['&', '\n', '>']
-            for i in remove_list:
-                genre = genre.replace(i, ',')
-            genre = genre.split(',')
-            genre = [items.strip().replace(' ', '').lower()
-                     for items in genre]
-            genre_list.append(genre)
-            # if 'travel' in genre:
-            # print('oui madam')
-            book_info.append(genre)
+                # == Publish Date ==
+                publish_date = soup.find(
+                    'meta', {'itemprop': 'datePublished'})['content']
+                book_info.append(publish_date)
+                # print(publish_date)
 
-            # == Link ==
-            link = url
-            # print(link)
-            book_info.append(link)
+                # == Genre ==
+                genre = soup.find(
+                    'div', {'class': 'breadcrumbs span12'})
+                unwanted = (genre.find('strong'))
+                unwanted.extract()
+                unwanted = (genre.find('br'))
+                unwanted.extract()
+                genre = genre.text.strip()
+                remove_list = ['&', '\n', '>']
+                for i in remove_list:
+                    genre = genre.replace(i, ',')
+                genre = genre.split(',')
+                genre = [items.strip().replace(' ', '').lower()
+                         for items in genre]
+                genre_list.append(genre)
+                # if 'travel' in genre:
+                # print('oui madam')
+                book_info.append(genre)
 
-            # == Image ==
-            img = soup.find('img', {'itemprop': 'image'})['src']
-            book_info.append(img)
-            book_list.append(book_info)
+                # == Link ==
+                link = url
+                # print(link)
+                book_info.append(link)
 
-            # == ADD BOOK TO DATABASE ==
-            # update genres
-            all_genres = {}
-            for obj in Genre.objects.all():
-                all_genres[obj.genre] = obj.id
+                # == Image ==
+                img = soup.find('img', {'itemprop': 'image'})['src']
+                book_info.append(img)
+                book_list.append(book_info)
 
-            book = Book.objects.create(
-                title=book_info[0],
-                author=book_info[1],
-                publish_date=book_info[3],
-                synopsis=book_info[2],
-                purchase_link=book_info[5],
-                img_link=book_info[6],)
-            book.genre.set(
-                [all_genres.get(i) for i in book_info[4] if i in all_genres.keys()])
-        print(all_genres)
+                # == ADD BOOK TO DATABASE ==
+                # update genres
+                all_genres = {}
+                for obj in Genre.objects.all():
+                    all_genres[obj.genre] = obj.id
+
+                book = Book.objects.create(
+                    title=book_info[0],
+                    author=book_info[1],
+                    publish_date=book_info[3],
+                    synopsis=book_info[2],
+                    purchase_link=book_info[5],
+                    img_link=book_info[6],)
+                book.genre.set(
+                    [all_genres.get(i) for i in book_info[4] if i in all_genres.keys()])
+        else:
+            break
     generate_csv(book_list)
     return 'The Database has been updated.'
 
