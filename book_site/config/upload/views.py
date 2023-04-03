@@ -76,6 +76,7 @@ def upload_by_scrape(request):
             'User-Agent': user_agent}
         url = f'https://www.waterstones.com'
         test = requests.get(url, headers=headers)
+        print(f'Connection test : {test.status_code}')
         if test.status_code == 200:
             success_message = webscraper(headers)
             messages.success(request, (success_message))
@@ -105,21 +106,24 @@ def webscraper(headers):
     all_genres = []
 
     # ============== WEBSCRAPING FOR URLS ==============
-    for page_number in range(0, 3):
+    for page_number in range(0, 21):
         ''' scraper visits the new realases page and gathers urls for 600 new books.
         '''
         url = f'https://www.waterstones.com/campaign/new-books/sort/pub-date-desc/page/{page_number}'
         page = requests.get(url, headers=headers)
         print(page.status_code)
-        soup = BeautifulSoup(page.text, 'lxml')
-        # print(soup.title.text)
-        books = soup.find_all('div', {
-            'class': 'title-wrap'})
-        for items in books:
-            book_url = 'https://www.waterstones.com' + \
-                items.find(
-                    'a', {'class': 'title link-invert dotdotdot'})['href']
-            links_list.append(book_url)
+        if page.status_code == 200:
+            soup = BeautifulSoup(page.text, 'lxml')
+            # print(soup.title.text)
+            books = soup.find_all('div', {
+                'class': 'title-wrap'})
+            for items in books:
+                book_url = 'https://www.waterstones.com' + \
+                    items.find(
+                        'a', {'class': 'title link-invert dotdotdot'})['href']
+                links_list.append(book_url)
+        else:
+            break
 
     # ============== WEBSCRAPING FOR BOOK INFO ==============
     for link in links_list:
