@@ -10,6 +10,8 @@ from django.contrib import messages
 import pandas as pd
 from django.conf import settings
 from datetime import datetime
+import time
+from .timer import Timer
 # Create your views here.
 
 
@@ -90,6 +92,8 @@ def upload_by_scrape(request):
 
 
 def webscraper(headers):
+    t = Timer()
+    t.start()
     headers = headers
     objects = Book.objects.all()
     # Get a list of all titles
@@ -104,14 +108,17 @@ def webscraper(headers):
     book_list = []
     genre_list = []
     all_genres = []
+    book_counter = 0
+    page_counter = 0
 
     # ============== WEBSCRAPING FOR URLS ==============
     for page_number in range(0, 21):
+        page_counter += 1
+        time.sleep(1)
         ''' scraper visits the new realases page and gathers urls for 600 new books.
         '''
         url = f'https://www.waterstones.com/campaign/new-books/sort/pub-date-desc/page/{page_number}'
         page = requests.get(url, headers=headers)
-        print(page.status_code)
         if page.status_code == 200:
             soup = BeautifulSoup(page.text, 'lxml')
             # print(soup.title.text)
@@ -123,6 +130,7 @@ def webscraper(headers):
                         'a', {'class': 'title link-invert dotdotdot'})['href']
                 links_list.append(book_url)
         else:
+            print(f'== LOOP KILLED @ PAGE: {page_counter} ==')
             break
 
     # ============== WEBSCRAPING FOR BOOK INFO ==============
@@ -136,10 +144,12 @@ def webscraper(headers):
         book object can be created in order to ensure that the information
         in the fields is uniform accross all book objects.
         '''
+        time.sleep(1)
         url = link
         # url = links_list[14]
         page = requests.get(url, headers=headers)
         if page.status_code == 200:
+            book_counter += 1
             soup = BeautifulSoup(page.text, 'lxml')
             book_info = []
 
@@ -219,7 +229,9 @@ def webscraper(headers):
                 book.genre.set(
                     [all_genres.get(i) for i in book_info[4] if i in all_genres.keys()])
         else:
+            print(f'== LOOP KILLED @ BOOK: {book_counter} ==')
             break
+    t.stop()
     generate_csv(book_list)
     return 'The Database has been updated.'
 
@@ -235,7 +247,8 @@ def generate_csv(book_list):
                'synopsis', 'genre', 'purchase_link', 'img_link']
     date = datetime.now().date()
     df = pd.DataFrame(book_list, columns=columns)
-    print(df.head())
+    print(df.info())
+    print(df)
     new_file = df.to_csv(f'{settings.MEDIA_ROOT}/{date}.csv',
                          encoding='utf-8', index=False)
     # add to csv models

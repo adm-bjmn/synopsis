@@ -80,8 +80,7 @@ def synopsis(request, selected_genres):
     display_books = (Book.objects.all().filter(
         genre__in=selected_genres)).exclude(
             liked_by=request.user.id).exclude(
-                seen_by=request.user.id)
-    # .order_by('?').distinct()
+                seen_by=request.user.id).order_by('?').distinct()
     # display books = display_books.remove if seen_by == user.id
     # selected_genres = '-'.join(selected_genres)
     genre_objs = []

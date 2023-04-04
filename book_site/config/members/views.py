@@ -28,6 +28,19 @@ def login_user(request):
         return render(request, 'members/login.html', {})
 
 
+def login_demo(request):
+    ''' Utilising built in django authentication'''
+    username = 'Demo'
+    password = 'thisisapassword'
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return redirect('dashboard')  # redirect to genres
+    else:
+        messages.success(request, ('Login in Failed.'))
+        return redirect('login_user')
+
+
 def logout_user(request):
     ''' Utilising built in django authentication'''
     logout(request)

@@ -50,17 +50,19 @@
     <button class="btn btn-outline-secondary" type="submit" name="user.id" value="{{user.id}}">Show Instructions</button>
     </form>
     {% endif %}
-    </div>
-    <div class="update-book-button">
-      <a href="{% url 'change_password' user.id %}"><button type="button" class="btn btn-outline-secondary">Change
-          Password</button></a>
-    </div>
-    {% if request.user.is_staff == False %}
-    <div class="update-book-button">
-      <a href="{% url 'delete_user' user.id %}"><button type="button"
-          onclick="if(confirm('Are You sure? This cannot be undone.')){}else{return false;};" id="deletebutton"
-          class="btn btn-outline-secondary">Delete Profile</button></a>
-    </div>
+    {% if user.id != 6 %}
+      </div>
+      <div class="update-book-button">
+        <a href="{% url 'change_password' user.id %}"><button type="button" class="btn btn-outline-secondary">Change
+            Password</button></a>
+      </div>
+      {% if request.user.is_staff == False %}
+      <div class="update-book-button">
+        <a href="{% url 'delete_user' user.id %}"><button type="button"
+            onclick="if(confirm('Are You sure? This cannot be undone.')){}else{return false;};" id="deletebutton"
+            class="btn btn-outline-secondary">Delete Profile</button></a>
+      </div>
+      {% endif %}
     {% endif %}
   </div>
 </div>
