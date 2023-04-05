@@ -17,13 +17,21 @@ Please Login
 
   <div class="my-books-book-wrapper">
     <div class='my-books-info-outer'>
-      <div class="book-info-text">
+      <div class="book-info-header">
         <div class="book-info-text">
-          <h4>{{book.title}}</h4>
+          <div class="book-info-text">
+            <h4>{{book.title}}</h4>
+          </div>
+          <div class="book-info-text">
+            <h5>{{book.author}}</h5>
+          </div>
         </div>
-        <div class="book-info-text">
-          <h5>{{book.author}}</h5>
+        <div class="book-image-wrapper">
+            <img itemprop="image" id="scope_book_image" class="book-image" data-modal-id="zoomModal"
+              src="{{book.img_link}}" data-zoom-src="{{book.img_link}}" alt="{{book.title}}" onerror="imgError(this)"
+              width="200" style="border-radius:15px;">
         </div>
+      </div>
         <div class="book-info-text">
           <h6>{{book.synopsis}}...</h6>
         </div>
@@ -31,15 +39,7 @@ Please Login
           <h6>{{book.publish_date}}</h6>
         </div>
       </div>
-      <div class="book-image-wrapper">
-        <div class="book-image">
-          <img itemprop="image" id="scope_book_image" class="js-open-modal" data-modal-id="zoomModal"
-            src="{{book.img_link}}" data-zoom-src="{{book.img_link}}" alt="{{book.title}}" onerror="imgError(this)"
-            width="200" style="border-radius:15px;">
-        </div>
-      </div>
-    </div>
-    <div style="height:30px;"></div>
+      <div style="height:30px;"></div>
     <div class="button-array">
       {% if selected_genres %}
         <h5><a class='genre-button' href="{% url 'synopsis' selected_genres %}">Back to Synopsis</a></h5>
@@ -60,11 +60,8 @@ Please Login
         <h5><a href="{{book.purchase_link}}" class='genre-button' target="_blank"> Purchase</a></h5>
       </div>
     </div>
-
-
     </div>
-  </div>
-
+    
   {% else %}
   <h3> Please Login to view this page...</h3>
   {% endif %}

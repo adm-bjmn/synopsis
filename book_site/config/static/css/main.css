@@ -27,27 +27,27 @@ body {
 }
 
 h1 {
-    font-size: 330px;
+    font-size: 210px;
 }
 
 h2 {
-    font-size: 145px;
+    font-size: 135px;
 }
 
 h3 {
-    font-size: 117px;
+    font-size: 135px;
 }
 
 h4 {
-    font-size: 63px;
+    font-size: 65px;
 }
 
 h5 {
-    font-size: 45px;
+    font-size: 48px;
 }
 
 h6 {
-    font-size: 27px;
+    font-size: 35px;
 }
 
 h1,
@@ -60,6 +60,33 @@ strong {
     font-family: var(--main_font);
     color: var(--main_text_color);
     font-weight: 500;
+}
+
+@media screen and (max-width: 700px) {
+    h1 {
+        font-size: 130px;
+    }
+
+    h2 {
+        font-size: 90px;
+    }
+
+    h3 {
+        font-size: 72px;
+    }
+
+    h4 {
+        font-size: 34px;
+    }
+
+    h5 {
+        font-size: 24px;
+    }
+
+    h6 {
+        font-size: 17px;
+    }
+
 }
 
 em {
@@ -177,6 +204,16 @@ strong {
     color: #285e8e;
 }
 
+.navbar {
+    background-color: #0C374D !important;
+}
+
+
+
+.navbar-toggler {
+    border-color: white;
+}
+
 
 .home-section {
     width: 80%;
@@ -268,6 +305,12 @@ strong {
     flex-direction: row;
     margin: 2%;
 
+}
+
+@media screen and (max-width: 600px) {
+    .synopsis-info {
+        flex-direction: column;
+    }
 }
 
 .synopsis-image {
@@ -385,13 +428,24 @@ strong {
 
 .my-books-info-outer {
     display: flex;
+    flex-direction: column;
+}
+
+.book-info-header {
+    display: flex;
     flex-direction: row;
+}
+
+@media screen and (max-width: 600px) {
+    .book-info-header {
+        flex-direction: column;
+    }
+
 }
 
 .book-info-text {
     margin: 2%;
     width: auto;
-
 }
 
 
@@ -468,11 +522,11 @@ strong {
     font-family: var(--main_font);
 }
 
-#no-button {
+.no-button {
     width: 150px;
 }
 
-#heart-button {
+.heart-button {
     width: 150px;
 }
 
@@ -482,4 +536,36 @@ strong {
 
 #ins-heart {
     width: 80px;
+}
+
+
+@media screen and (max-width: 600px) {
+    .no-button {
+        width: 100px;
+    }
+
+    .heart-button {
+        width: 100px;
+    }
+}
+
+@media (max-width: 600px) {
+    .navbar-expand-lg .navbar-collapse {
+        display: none;
+    }
+
+    .navbar-expand-lg .navbar-toggler {
+        display: block;
+    }
+
+    .navbar-expand-lg .navbar-nav .nav-link {
+        color: white;
+    }
+
+    .navbar-expand-lg .navbar-nav {
+        background-color: #0C374D;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
 }

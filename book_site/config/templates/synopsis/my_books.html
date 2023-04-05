@@ -20,48 +20,50 @@
   {% for book in my_books %}
   <div class="my-books-book-wrapper">
     <div class='my-books-info-outer'>
-      <div class="book-info-text">
+      <div class="book-info-header">
         <div class="book-info-text">
-          <h4>{{book.title}}</h4>
+          <div class="book-info-text">
+            <h4>{{book.title}}</h4>
+          </div>
+          <div class="book-info-text">
+            <h5>{{book.author}}</h5>
+          </div>
         </div>
-        <div class="book-info-text">
-          <h5>{{book.author}}</h5>
+        <div class="book-image-wrapper">
+            <img itemprop="image" id="scope_book_image" class="book-image" data-modal-id="zoomModal"
+              src="{{book.img_link}}" data-zoom-src="{{book.img_link}}" alt="{{book.title}}" onerror="imgError(this)"
+              width="200" style="border-radius:15px;">
         </div>
+      </div>
         <div class="book-info-text">
           <h6>{{book.synopsis|slice:":250"}}...</h6>
         </div>
       </div>
-      <div class="book-image-wrapper">
-        <div class="book-image">
-          <img itemprop="image" id="scope_book_image" class="js-open-modal" data-modal-id="zoomModal"
-            src="{{book.img_link}}" data-zoom-src="{{book.img_link}}" alt="{{book.title}}" onerror="imgError(this)"
-            width="200" style="border-radius:15px;">
-        </div>
+      <div class='like-book'>
+        <form action="{% url 'remove_book' book.id %}" method="POST" class='auth-form'>
+          {% csrf_token %}
+          <div class='button-array'>
+            <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"
+                onclick="if(confirm('Are You sure?')){}else{return false;};">Remove</button></h5>
+            <h5><a href="{% url 'book_info' book.id %}" class='genre-button'> More Info</a></h5>
+          </div>
+        </form>
       </div>
     </div>
-    <div class='like-book'>
-      <form action="{% url 'remove_book' book.id %}" method="POST" class='auth-form'>
-        {% csrf_token %}
-        <div class='button-array'>
-          <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"
-              onclick="if(confirm('Are You sure?')){}else{return false;};">Remove</button></h5>
-          <h5><a href="{% url 'book_info' book.id %}" class='genre-button'> More Info</a></h5>
-        </div>
-      </form>
-    </div>
-  </div>
+
 
 
 
   <br />
-  {% endfor%}
-  {% else %}
-  <h3>You haven't liked any books yet, click
-    <a href="{% url 'dashboard' %}" class='synopsis' style='color:grey;'>here </a> to start exploring...
-  </h3>
-  {% endif %}
-  {% else %}
-  <h3> Please Login to view this page...</h3>
-  {% endif %}
-
+  <div style="padding:2%;">
+    {% endfor%}
+    {% else %}
+    <h3>You haven't liked any books yet, click
+      <a href="{% url 'dashboard' %}" class='synopsis' style='color:grey;'>here </a> to start exploring...
+    </h3>
+    {% endif %}
+    {% else %}
+    <h3> Please Login to view this page...</h3>
+    {% endif %}
+  </div>
   {% endblock content%}

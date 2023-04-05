@@ -62,23 +62,21 @@
         <h6>{{book.synopsis|slice:":700"}}...</h6>
       </div>
       <div class='synopsis-image'>
-        <div class="book-image">
-          <img itemprop="image" id="scope_book_image" class="js-open-modal" data-modal-id="zoomModal"
+          <img itemprop="image" id="scope_book_image" class="book-image" data-modal-id="zoomModal"
             src="{{book.img_link}}" data-zoom-src="{{book.img_link}}" alt="{{book.title}}" onerror="imgError(this)"
             width="200" style="border-radius:15px;">
-        </div>
       </div>
     </div>
     <div class="synopsis-buttons">
       <div class="button-array">
         {%if pages.has_next %}
         <div class='next-button'>
-          <a class='genre-button' type="submit" href="?page={{ pages.next_page_number }}"><img id='no-button'
+          <a class='genre-button' type="submit" href="?page={{ pages.next_page_number }}"><img class='no-button'
               src="{% static 'images/No.svg' %}"></a>
         </div>
         {%else%}
         <div class='next-button'>
-          <a class='genre-button' type="submit" href="{% url 'the_last_page' selected_genres %}"><img id='no-button'
+          <a class='genre-button' type="submit" href="{% url 'the_last_page' selected_genres %}"><img class='no-button'
               src="{% static 'images/No.svg' %}"></a>
         </div>
         {% endif %}
@@ -91,7 +89,7 @@
               <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}">Remove from The Maybe
                   Pile</button></h5>
               {% else %}
-              <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"><img id='heart-button'
+              <h5><button class='genre-button' type="submit" name="book.id" value="{{book.id}}"><img class='heart-button'
                     src="{% static 'images/heart.svg' %}"></button>
               </h5>
               {% endif %}
