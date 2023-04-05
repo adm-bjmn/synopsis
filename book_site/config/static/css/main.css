@@ -549,7 +549,7 @@ strong {
     }
 }
 
-@media (max-width: 1000px) {
+@media (min-width: 300px) and (max-width: 400px) {
     .navbar-expand-lg .navbar-collapse {
         display: none;
     }
