@@ -13,7 +13,7 @@ A web application that offers a new way to shop for your next great read.
 
   <p align="center">
     <br />
-    <a href="https://themaybepile.herokuapp.com"><strong>Working Prototype »</strong></a>
+    <a href="https://themaybepile-demo.herokuapp.com"><strong>Working Prototype »</strong></a>
     <br />
     <br />
     <a href="#contact">Contact</a>
