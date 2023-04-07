@@ -1,9 +1,9 @@
 
 from pathlib import Path
 import os
-from decouple import config
-import dj_database_url
-import django_on_heroku
+# from decouple import config
+# import dj_database_url
+# import django_on_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,7 +45,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -115,11 +115,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
-STATIC_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATIC_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media/')
 
@@ -129,4 +129,4 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media/')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-django_on_heroku.settings(locals())
+# django_on_heroku.settings(locals())
