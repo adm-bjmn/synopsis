@@ -5,7 +5,7 @@ A web application that offers a new way to shop for your next great read.
 <br />
 
 <h3 align="center">The Maybe Pile</h3>
-![demo1](https://github.com/adm-bjmn/themaybepile/blob/readme/media/demo1.gif)
+![demo2](https://github.com/adm-bjmn/themaybepile/blob/readme/media/demo2.gif)
 
   <p align="center">
     <br />
