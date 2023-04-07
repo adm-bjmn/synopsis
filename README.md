@@ -2,7 +2,7 @@
 A web application that offers a new way to shop for your next great read.
 <div id="top"></div>
 
-<br />
+<br/>
 
 <h3 align="center">The Maybe Pile</h3>
 
@@ -61,19 +61,26 @@ The Maybe Pile offers a new way to find your next great read.
 
 1. Sign into the app by clicking demo in the bottom left corner of the screen.
 ![login](media/signin.jpg?raw=true "Login")
+<br/>
 2. You will be taken to a dashboard with a selection of genres to choose from. Make your selection and press lets go...
 ![Genres](media/selectgenres.jpg?raw=true "Select Genres")
+<br/>
 3. Upon your first visit you will be shown instruction on how 'Synopsis' works, you can dismiss these by clicking the hide instructions buton.
 ![hideins](media/hidein.jpg?raw=true "Hide instructions")
+<br/>
 4. Following the instructions and using the buttons on screen, advanse through the cards by wither 'liking' or 'passing' depending on how you feel about the synopsis
 ![synopsis](media/synopsis.jpg?raw=true "Synopsis") 
+<br/>
 5. Once you have liked a few books you can view them all by clicking on 'The Maybe Pile in the navigation bar.
 6. Click more info to be taken to a page showing the full synopsis along with a link to purchase.
 ![maybe](media/maybe.jpg?raw=true "Maybe Pile")
+<br/>
 7. Books can be removed from your maybe pile by pressing Remove. Be careful however these books will not be shown again. 
 ![moreinfo](media/moreinfo.jpg?raw=true "More Info")
+<br/>
 8. You can reset you seen books in the account info screen as well as *user-information and *Password (* not available on demo)
 ![update](media/accountinfo.jpg?raw=true "Account Info")
+<br/><br/>
 
 
 ## Contact
