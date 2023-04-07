@@ -1,14 +1,13 @@
-# synopsis
-A Django based web application that offers a new way to shop for your next great read.
+# The Maybe Pile 
+A web application that offers a new way to shop for your next great read.
 <div id="top"></div>
 
 <br />
-<div align="center">
-![demogif](media/demo.gif)
-![demoGif](media/demo..gif.sb-bc809ec3-VRhtIG?raw=true "Demo")
+
 <h3 align="center">The Maybe Pile</h3>
 
   <p align="center">
+  ![Demo](media/demo1.gif?raw=true "Demo")
     <br />
     <a href="https://themaybepile.herokuapp.com"><strong>Working Prototype »</strong></a>
     <br />
@@ -32,7 +31,7 @@ A Django based web application that offers a new way to shop for your next great
     <li><a href="#acknowledgments">Important Info</a></li>
   </ol>
 </details>
-
+    
 ## About The Project
 
 
