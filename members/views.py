@@ -43,6 +43,10 @@ def login_demo(request):
 
 def logout_user(request):
     ''' Utilising built in django authentication'''
+    member = request.user.member
+    if member.id == 6:
+        member.seen_instructions = False
+        member.save()
     logout(request)
     # messages.success(request, ('great cheers...'))
     return redirect('home')
