@@ -32,10 +32,17 @@
     </div>
   </div>
   <div class="update-book-buttons-wrapper">
+    {% if user.id == 6 %}
+    <div class="update-book-button">
+      <a href="#"><button type="button" class="btn btn-outline-secondary">Update
+          info</button></a>
+    </div>
+    {% else %}
     <div class="update-book-button">
       <a href="{% url 'update_profile' user.id %}"><button type="button" class="btn btn-outline-secondary">Update
           info</button></a>
     </div>
+    {% endif %}
     <div class="update-book-button">
       <a href="{% url 'reset_synopsis' user.id %}"><button type="button" class="btn btn-outline-secondary"
         onclick="if(confirm('This will reset all the books that you have seen before and they will reappear in future searches. Would you like to Proceed?')){}else{return false;};" id="deletebutton">Reset Synopsis
@@ -67,8 +74,9 @@
   </div>
 </div>
 </div>
-
-
+{% if user.id == 6 %}
+Demo info cannot be changed.
+{% endif %}
 {% else %}
 <h3> Please Login to view this page...</h3>
 {% endif %}
