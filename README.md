@@ -7,7 +7,7 @@ A web application that offers a new way to shop for your next great read.
 <h3 align="center">The Maybe Pile</h3>
 
   <p align="center">
-(https://user-images.githubusercontent.com/117221472/230669302-0a0bf2ba-0e98-4a03-b523-962d30e0e2ee.gif)
+    ![](https://user-images.githubusercontent.com/117221472/230669302-0a0bf2ba-0e98-4a03-b523-962d30e0e2ee.gif)
   
     <br />
     <a href="https://themaybepile.herokuapp.com"><strong>Working Prototype »</strong></a>
