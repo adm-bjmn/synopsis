@@ -5,8 +5,8 @@ A web application that offers a new way to shop for your next great read.
 <br />
 
 <h3 align="center">The Maybe Pile</h3>
+![demo3](https://user-images.githubusercontent.com/117221472/230672507-ce0f8b0d-1d34-424d-8177-1fa943c3a49e.gif)
 
-![demo2](https://user-images.githubusercontent.com/117221472/230672357-b46b4728-3d06-4418-914f-6320630196cc.gif)
 
   <p align="center">
     <br />
