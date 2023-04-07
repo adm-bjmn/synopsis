@@ -4,7 +4,8 @@ A Django based web application that offers a new way to shop for your next great
 
 <br />
 <div align="center">
-  ![](media/demo.gif)
+![demogif](media/demo.gif)
+![demoGif](media/demo..gif.sb-bc809ec3-VRhtIG?raw=true "Demo")
 <h3 align="center">The Maybe Pile</h3>
 
   <p align="center">
@@ -34,7 +35,6 @@ A Django based web application that offers a new way to shop for your next great
 
 ## About The Project
 
-![Product Name Screen Shot][product-screenshot]
 
 The Maybe Pile offers a new way to find your next great read.
 
