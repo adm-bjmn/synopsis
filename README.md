@@ -93,10 +93,10 @@ LinkedIn: [Adam Benjamin](https://www.linkedin.com/in/adam-benjamin-81273a251/)
 
 ## Important Info
 
-This Repository contains the 'prototype' of a product that I am now working separate to this version. 
-Prototype in inverted commas as it is rather more of a sketch than anything else. 
-This was always the intention for this particuar repo as a place to play and experiment and once a proof of concept had been obtained I moved on to production under much stricter rules. 
-As such this repo is no longer updated or contributed and has been left here as a demonstration of an idea rather than a working repository. 
+This Repository contains the prototype of a product that is now being developed sparately to this version.
+
+It was always the intention for this particuar repository to be a place to play and experiment and once a proof of concept had been obtained I moved on to production under much stricter rules. 
+As such this repo is no longer updated or contributed to and has been left here as a demonstration of an idea rather than a working repository. 
  
  You are welcome to download the code and have a play with the concept if you like but please dont try to commit to this particular project as it has been locked.
 
