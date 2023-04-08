@@ -1,5 +1,3 @@
-# The Maybe Pile 
-A web application that offers a new way to shop for your next great read.
 <div id="top"></div>
 
 <br/>
@@ -39,7 +37,7 @@ A web application that offers a new way to shop for your next great read.
 ## About The Project
 
 
-The Maybe Pile offers a new way to find your next great read.
+The Maybe Pile offers fun way to sift through modern fiction titles and zero in on the books that you want to read, without having to keep seeing the ones you don't.
 
 * Once signed in you will be able to select the genres you are interested in and a tailored collection of books will be pulled from our huge database.
 * Next the app will show you a snippet of each books synopsis in turn. You are given the option to pass, or add the book to The Maybe Pile. You must make a decision before can see the next book. 
