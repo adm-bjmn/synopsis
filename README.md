@@ -51,7 +51,7 @@ The Maybe Pile offers fun way to sift through modern fiction titles and zero in 
 * [Django](https://www.djangoproject.com)
 * [Heroku](https://www.heroku.com/)
 * [GitHub](https://www.github.com)
-* [Docker] (https://www.docker.com)
+* [Docker](https://www.docker.com)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
